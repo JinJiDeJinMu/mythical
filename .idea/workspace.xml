@@ -4,14 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8b2e479a-07a5-44fc-989e-b1f8d89f4915" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/mythical-process/dispatch/dispatch-core/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mythical-process/dispatch/dispatch-sparksql/src/main/java/com/jm/dispatch/sparksql/controller/TestController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mythical-process/dispatch/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mythical-process/storage/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mythical-client/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mythical-client/mvnw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mythical-client/mvnw.cmd" beforeDir="false" />
+    <list default="true" id="8b2e479a-07a5-44fc-989e-b1f8d89f4915" name="Changes" comment="feta:project structure construction">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,6 +67,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "jdk.selected.JAVA_MODULE": "1.8",
+    "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.62528735",
@@ -117,8 +112,16 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1684128791347</updated>
-      <workItem from="1684128792781" duration="4802000" />
+      <workItem from="1684128792781" duration="6052000" />
     </task>
+    <task id="LOCAL-00001" summary="feta:project structure construction">
+      <created>1684137085842</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1684137085842</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -134,5 +137,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="feta:project structure construction" />
+    <option name="LAST_COMMIT_MESSAGE" value="feta:project structure construction" />
   </component>
 </project>
