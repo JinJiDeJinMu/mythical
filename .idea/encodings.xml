@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/mythical-client/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mythical-client/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mythical-process/dispatch/dispatch-hive/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mythical-process/dispatch/dispatch-seatunnel/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mythical-process/dispatch/dispatch-sparksql/src/main/java" charset="UTF-8" />
+  </component>
+</project>
