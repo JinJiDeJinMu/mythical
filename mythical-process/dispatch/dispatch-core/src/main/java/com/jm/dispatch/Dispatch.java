@@ -14,19 +14,10 @@ public interface Dispatch {
     void init();
 
     /**
-     * 运行前置
-     */
-    void preRun();
-
-    /**
      * 运行
      */
     void run();
 
-    /**
-     * 运行后置
-     */
-    void postRun();
 
     /**
      * 取消
