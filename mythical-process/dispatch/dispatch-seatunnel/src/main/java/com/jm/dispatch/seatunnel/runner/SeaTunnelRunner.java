@@ -3,6 +3,8 @@ package com.jm.dispatch.seatunnel.runner;
 import com.jm.dispatch.AbstractCommandDispatch;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * TODO
  *
@@ -11,23 +13,29 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class SeaTunnelRunner extends AbstractCommandDispatch {
+
+
+    public SeaTunnelRunner(String dispatchContext) {
+        super(dispatchContext);
+    }
+
+    @Override
+    protected List<String> buildCommand() {
+        return null;
+    }
+
+    @Override
+    protected Class getParametersClass() {
+        return null;
+    }
+
+    @Override
+    protected void clear() {
+
+    }
+
     @Override
     public void init() {
-
-    }
-
-    @Override
-    public void preRun() {
-
-    }
-
-    @Override
-    public void run() {
-
-    }
-
-    @Override
-    public void postRun() {
 
     }
 

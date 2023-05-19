@@ -3,6 +3,7 @@ package com.jm.dispatch;
 import cn.hutool.json.JSONUtil;
 import com.jm.param.Parameters;
 
+
 /**
  * TODO
  *
@@ -10,7 +11,6 @@ import com.jm.param.Parameters;
  * @Date 2023/5/15 20:35
  */
 public abstract class AbstractDispatch<P extends Parameters> implements Dispatch{
-
 
     protected P parameters;
 
@@ -20,6 +20,7 @@ public abstract class AbstractDispatch<P extends Parameters> implements Dispatch
     public AbstractDispatch(String dispatchContext){
         this.dispatchContext = JSONUtil.toBean(dispatchContext,DispatchContext.class);
         buildParameters();
+
     }
 
     protected void buildParameters() {
@@ -32,7 +33,6 @@ public abstract class AbstractDispatch<P extends Parameters> implements Dispatch
     @Override
     public void run() {
         try {
-
             //---------------
             preRun();
 

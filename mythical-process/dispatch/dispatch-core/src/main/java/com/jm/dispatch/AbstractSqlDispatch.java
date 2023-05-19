@@ -42,13 +42,10 @@ public abstract class AbstractSqlDispatch <P extends SqlDispatchParameters> exte
     @Override
     protected void doRun() {
         try {
-            if(connection == null || connection.isClosed()){
-                this.connection = connect();
-            }
 
             executeSql();
             
-        } catch (SQLException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
@@ -80,10 +77,13 @@ public abstract class AbstractSqlDispatch <P extends SqlDispatchParameters> exte
                 throw new RuntimeException(e);
             }
         }
+        //todo
+
     }
 
     @Override
     protected void postRun() {
+
 
     }
 
