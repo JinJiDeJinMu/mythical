@@ -2,6 +2,8 @@ package com.jm.dispatch;
 
 import com.jm.helper.SQLHelper;
 import com.jm.param.SqlDispatchParameters;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
 import java.sql.*;
@@ -17,9 +19,12 @@ import java.util.Properties;
  */
 public abstract class AbstractSqlDispatch <P extends SqlDispatchParameters> extends AbstractDispatch<P>{
 
+    private static final Logger LOG = LoggerFactory.getLogger(AbstractSqlDispatch.class);
     private Connection connection;
 
     private Statement statement;
+
+    private SQLHelper sqlHelper;
 
     private static final int maxSQLNum =  10000;
 
@@ -34,15 +39,15 @@ public abstract class AbstractSqlDispatch <P extends SqlDispatchParameters> exte
 
     @Override
     protected void preRun() {
+        LOG.info("pre run...........");
         this.connection = connect();
-
+        this.sqlHelper = new SQLHelper();
     }
-
 
     @Override
     protected void doRun() {
         try {
-
+            LOG.info("do run...........");
             executeSql();
             
         } catch (Exception e) {
@@ -52,8 +57,6 @@ public abstract class AbstractSqlDispatch <P extends SqlDispatchParameters> exte
     }
 
     protected void executeSql() {
-        SQLHelper sqlHelper = new SQLHelper();
-
         List<String> analyzeSQL = sqlHelper.analyzeSQL(dispatchContext.getDispatchType(), parameters.getCode());
 
         for (int i = 0; i < analyzeSQL.size(); i++) {
@@ -83,8 +86,14 @@ public abstract class AbstractSqlDispatch <P extends SqlDispatchParameters> exte
 
     @Override
     protected void postRun() {
+        LOG.info("post run...........");
+    }
 
-
+    @Override
+    public void cancel() {
+        LOG.info("cancel...........");
+        this.sqlHelper.closeStatement(statement);
+        this.sqlHelper.closeConnection(connection);
     }
 
     protected Connection connect() {

@@ -1,13 +1,12 @@
 package com.jm.helper;
 
+import lombok.extern.log4j.Log4j;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.lang.StringUtils;
 
 import java.io.*;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -19,6 +18,7 @@ import java.util.stream.Collectors;
  * @Author jinmu
  * @Date 2023/5/18 14:15
  */
+@Log4j
 public class SQLHelper {
 
     private static final String INSERT_PREFIX = "insert";
@@ -105,5 +105,44 @@ public class SQLHelper {
            throw new RuntimeException(e);
        }
    }
+
+    public void closeConnection(Connection con) {
+        if (con != null) {
+            try {
+                con.close();
+            } catch (SQLException var2) {
+                log.error("Could not close JDBC Connection", var2);
+            } catch (Exception var3) {
+                log.warn("Unexpected exception on closing JDBC Connection", var3);
+            }
+        }
+
+    }
+
+    public void closeStatement(Statement stmt) {
+        if (stmt != null) {
+            try {
+                stmt.close();
+            } catch (SQLException var2) {
+                log.trace("Could not close JDBC Statement", var2);
+            } catch (Exception var3) {
+                log.trace("Unexpected exception on closing JDBC Statement", var3);
+            }
+        }
+
+    }
+
+    public void closeResultSet(ResultSet rs) {
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException var2) {
+                log.trace("Could not close JDBC ResultSet", var2);
+            } catch (Exception var3) {
+                log.warn("Unexpected exception on closing JDBC ResultSet", var3);
+            }
+        }
+
+    }
 
 }

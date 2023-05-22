@@ -13,6 +13,9 @@ public class DispatchContext {
 
     private String dispatchType;
 
+    /**
+     * 唯一标识
+     */
     private String Uid;
 
     private String dispatchParameters;

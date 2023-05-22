@@ -2,7 +2,8 @@ package com.jm.dispatch;
 
 import com.jm.param.Parameters;
 import com.jm.utils.SystemUtils;
-import lombok.extern.log4j.Log4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -18,9 +19,9 @@ import java.util.concurrent.TimeUnit;
  * @Author jinmu
  * @Date 2023/5/15 20:43
  */
-@Log4j
 public abstract class AbstractCommandDispatch<P extends Parameters> extends AbstractDispatch<P> {
 
+    private static final Logger LOG = LoggerFactory.getLogger(AbstractCommandDispatch.class);
     protected FutureTask processLogFuture;
     protected Thread processLogThread;
     protected long timeout = 3600L;
@@ -37,18 +38,19 @@ public abstract class AbstractCommandDispatch<P extends Parameters> extends Abst
 
     @Override
     protected void preRun() {
-
+        LOG.info("pre run...........");
     }
 
     @Override
     protected void doRun() {
+        LOG.info("do run...........");
         this.processBuilder = buildProcessBuilder();
 
         try {
             this.process = processBuilder.start();
             this.processId = SystemUtils.getProcessId(process);
         } catch (Exception e) {
-            log.error(e.getMessage());
+            LOG.error(e.getMessage());
         }
 
         // 异步监听日志
@@ -63,7 +65,15 @@ public abstract class AbstractCommandDispatch<P extends Parameters> extends Abst
 
     @Override
     protected void postRun() {
+        LOG.info("post run...........");
+    }
 
+    @Override
+    public void cancel() {
+        LOG.info("cancel..........");
+        if(!softHardKill(processId)){
+            throw new RuntimeException("取消失败");
+        }
     }
 
     protected void waitForProcess() {
@@ -79,14 +89,14 @@ public abstract class AbstractCommandDispatch<P extends Parameters> extends Abst
                     //判断是否是kill
                     if (isKilled(exitValue)) {
                         // 进程被kill
-                        log.info("进程被kill");
+                        LOG.info("进程被kill");
                     }
                 }
             }
         } catch (InterruptedException exception) {
-            log.info("进程执行中断");
+            LOG.error("进程执行中断");
         } catch (Throwable e) {
-            log.info("进程执行失败," + e.getMessage());
+            LOG.error("进程执行失败," + e.getMessage());
         }
 
         // 等待日志输出结束
@@ -117,14 +127,14 @@ public abstract class AbstractCommandDispatch<P extends Parameters> extends Abst
             String line;
             while ((line = inReader.readLine()) != null) {
                 //todo 如果需要分析日志获取applicationId，可以在这里处理
-                log.info(line);
+                LOG.info(line);
 
                 if (processLogThread.isInterrupted()) {
                     throw new InterruptedException();
                 }
             }
         } catch (Throwable e) {
-            log.error(e.getMessage());
+            LOG.error(e.getMessage());
         }
     }
 
@@ -153,12 +163,12 @@ public abstract class AbstractCommandDispatch<P extends Parameters> extends Abst
             Process killProcess = Runtime.getRuntime().exec(killCmd);
             if (killProcess.waitFor(timeout, timeUnit)) {
                 int exitValue = killProcess.exitValue();
-                log.info("kill进程退出值：" + exitValue);
+                LOG.info("kill进程退出值：" + exitValue);
             } else {
-                log.info("kill进程超时");
+                LOG.info("kill进程超时");
             }
         } catch (Exception e) {
-            log.error("kill进程异常,", e);
+            LOG.error("kill进程异常,", e);
         }
         return false;
     }
