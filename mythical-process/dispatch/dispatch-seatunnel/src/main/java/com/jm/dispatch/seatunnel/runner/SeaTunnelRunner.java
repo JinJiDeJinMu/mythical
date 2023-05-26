@@ -30,6 +30,11 @@ public class SeaTunnelRunner extends AbstractCommandDispatch {
     }
 
     @Override
+    protected void clear() {
+
+    }
+
+    @Override
     public void init() {
 
     }
