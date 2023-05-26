@@ -6,13 +6,13 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.*;
 import org.apache.hadoop.io.IOUtils;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.stream.Collectors;
 
 
 /**
@@ -24,14 +24,24 @@ import java.nio.charset.StandardCharsets;
 public class Test {
 
     public static void main(String[] args) throws IOException {
-        FileSystem fs;
-        try {
-             fs = FileSystem.get(new URI("hdfs://192.168.110.42:8020"),new Configuration());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
+//        FileSystem fs;
+//        try {
+//             fs = FileSystem.get(new URI("hdfs://192.168.110.42:8020"),new Configuration());
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        } catch (URISyntaxException e) {
+//            throw new RuntimeException(e);
+//        }
+        FileWriter writer = new FileWriter("/Users/jinmu/Downloads/1.txt", true);
+        BufferedWriter bufferedWriter = new BufferedWriter(writer);
+        for (int i = 400; i < 500; i++) {
+            String msg = "追加 追加 1追加 2追加 3追加 4追加 5追加 6追加 7追加 8追加 9追加 10追加 追加 " + i;
+            bufferedWriter.write(msg);
+            bufferedWriter.newLine();
         }
+        bufferedWriter.flush();
+        writer.close();
+
         //fs.create(new Path("/jinmu/test/append/1.txt"));
 //        FSDataOutputStream fos = fs.append(new Path("/jinmu/test/append/1.txt"));
 //        for (int i = 100; i < 200; i++) {
@@ -49,10 +59,16 @@ public class Test {
         //5290 1030
         //System.out.println("/n".length());
 
-        readLog(fs,"/jinmu/test/append/1.txt",1050,20);
+        //readLog(fs,"/jinmu/test/append/1.txt",4190,20);
 
+//        Long start = System.currentTimeMillis();
+//        System.out.println(Files.lines(Paths.get("/Users/jinmu/Downloads/1.txt"))
+//                .parallel()
+//                .collect(Collectors.joining(System.lineSeparator())));
+//
+//        //readfFull("/Users/jinmu/Downloads/1.txt");
+//        System.out.println(System.currentTimeMillis()-start);
 
-        //readLog("/Users/jinmu/Downloads/1.txt",12610,120);
     }
     public static void readLog(FileSystem fs,String path, Integer currentLine, Integer limit){
         try {
@@ -75,12 +91,11 @@ public class Test {
 
                         String line = rawLine;
                         line = line + "\n";
-                        offset += rawLine.length() +1;
+                        offset += rawLine.getBytes().length +1;
                         builder.append(line);
                     }
-                    System.out.println("当前位置" + fis.getPos());
                     System.out.println("当前offset = " + offset);
-                    System.out.println(builder.toString());
+                    System.out.println(builder);
                 }
             }
         } catch (IOException e) {
@@ -121,6 +136,28 @@ public class Test {
             throw new RuntimeException(e);
         }
 
+    }
+    public static void readfFull(String filePath){
+        try {
+            File file = new File(filePath);
+
+            if(!file.exists()){
+                System.out.println("文件不存在");
+                return;
+            }
+            BufferedRandomAccessFile baf = new BufferedRandomAccessFile(filePath, "r");
+            StringBuilder builder = new StringBuilder();
+            String rawLine;
+            while((rawLine = baf.readLine()) != null) {
+                    String line = new String(rawLine.getBytes("ISO-8859-1"), "utf-8");
+
+                    line = line + "\n";
+                    builder.append(line);
+                }
+                System.out.println(builder.toString());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }
