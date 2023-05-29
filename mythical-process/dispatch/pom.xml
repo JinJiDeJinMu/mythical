@@ -13,6 +13,7 @@
         <module>dispatch-hive</module>
         <module>dispatch-sparksql</module>
         <module>dispatch-seatunnel</module>
+        <module>dispatch-log</module>
     </modules>
 
     <modelVersion>4.0.0</modelVersion>

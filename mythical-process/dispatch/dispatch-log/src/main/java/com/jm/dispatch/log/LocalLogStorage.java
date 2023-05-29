@@ -1,15 +1,13 @@
-package com.jm.mythical.log;
+package com.jm.dispatch.log;
 
-import com.jm.mythical.log.model.LogResult;
+
+import com.jm.dispatch.log.model.LogResult;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * TODO
@@ -17,7 +15,7 @@ import java.util.stream.Collectors;
  * @Author jinmu
  * @Date 2023/5/26 15:51
  */
-public class LocalLogStorage implements LogStorage{
+public class LocalLogStorage implements LogStorage {
 
     private static final String ISO_CHARACTER = "ISO-8859-1";
 

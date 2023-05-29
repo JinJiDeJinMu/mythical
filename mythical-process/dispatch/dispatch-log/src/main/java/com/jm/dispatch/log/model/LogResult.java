@@ -1,4 +1,4 @@
-package com.jm.mythical.log.model;
+package com.jm.dispatch.log.model;
 
 /**
  * TODO

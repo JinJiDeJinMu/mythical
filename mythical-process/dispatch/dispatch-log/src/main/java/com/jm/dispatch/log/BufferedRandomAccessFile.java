@@ -1,4 +1,4 @@
-package com.jm.mythical.log;
+package com.jm.dispatch.log;
 
 import java.io.File;
 import java.io.FileNotFoundException;

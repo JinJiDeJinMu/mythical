@@ -1,6 +1,8 @@
-package com.jm.mythical.log;
+package com.jm.dispatch.log;
 
-import com.jm.mythical.log.model.LogResult;
+
+
+import com.jm.dispatch.log.model.LogResult;
 
 import java.io.IOException;
 import java.util.List;

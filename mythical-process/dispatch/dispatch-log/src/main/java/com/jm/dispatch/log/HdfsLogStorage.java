@@ -1,12 +1,12 @@
-package com.jm.mythical.log;
+package com.jm.dispatch.log;
 
-import com.jm.mythical.log.model.LogResult;
+
+import com.jm.dispatch.log.model.LogResult;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.PostConstruct;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -28,10 +28,12 @@ public class HdfsLogStorage implements LogStorage{
     String HdfsPath = "hdfs://192.168.110.42:8020";
     FileSystem fs;
 
-    @PostConstruct
+
     public void init(){
         try {
-             fs = FileSystem.get(new URI(HdfsPath),new Configuration());
+            if(fs == null){
+                fs = FileSystem.get(new URI(HdfsPath),new Configuration());
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (URISyntaxException e) {
@@ -41,6 +43,7 @@ public class HdfsLogStorage implements LogStorage{
 
     @Override
     public void write(String filePath, List<String> messages) throws IOException {
+        init();
         FSDataOutputStream fos = null;
         try {
             fos = fs.append(new Path(filePath));
@@ -62,6 +65,7 @@ public class HdfsLogStorage implements LogStorage{
         Long offset = null;
         StringBuilder builder = new StringBuilder();
         try {
+            init();
             Path path = new Path(filePath);
             if(fs.exists(path)){
                 FileStatus fileStatus = fs.getFileStatus(path);
@@ -99,6 +103,7 @@ public class HdfsLogStorage implements LogStorage{
         BufferedReader buf = null;
         StringBuilder builder = new StringBuilder();
         try {
+            init();
             Path path = new Path(filePath);
             if(fs.exists(path)){
                 fis = fs.open(path);
