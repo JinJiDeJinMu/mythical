@@ -15,7 +15,7 @@ import java.util.List;
  */
 public interface LogStorage {
 
-    void write(String filePath, List<String> messages) throws IOException;
+    void write(String filePath, String message) throws IOException;
 
     LogResult currentLineRead(String filePath, Long currentLine, Long limit) throws IOException;
 

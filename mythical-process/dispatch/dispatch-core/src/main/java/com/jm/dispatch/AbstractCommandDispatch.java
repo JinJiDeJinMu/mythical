@@ -2,13 +2,16 @@ package com.jm.dispatch;
 
 import com.jm.param.Parameters;
 import com.jm.utils.SystemUtils;
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
@@ -31,6 +34,13 @@ public abstract class AbstractCommandDispatch<P extends Parameters> extends Abst
     private Process process;
     private Integer processId;
     private ProcessBuilder processBuilder;
+    protected String logStorageFile;
+
+    protected Boolean command_success_flag = false;
+    private static String filePrefix = "/usr/process";
+
+    private static String JM_RUN_SUCCESS_CODE = "jm_run_success";
+    private static String JM_RUN_ERROR_CODE = "jm_run_error";
 
     public AbstractCommandDispatch(String dispatchContext) {
         super(dispatchContext);
@@ -39,6 +49,7 @@ public abstract class AbstractCommandDispatch<P extends Parameters> extends Abst
     @Override
     protected void preRun() {
         LOG.info("pre run...........");
+        buildLogStorageFile();
     }
 
     @Override
@@ -66,6 +77,11 @@ public abstract class AbstractCommandDispatch<P extends Parameters> extends Abst
     @Override
     protected void postRun() {
         LOG.info("post run...........");
+        try {
+            logStorage.write(this.logStorageFile,command_success_flag?JM_RUN_SUCCESS_CODE:JM_RUN_ERROR_CODE);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -91,6 +107,8 @@ public abstract class AbstractCommandDispatch<P extends Parameters> extends Abst
                         // 进程被kill
                         LOG.info("进程被kill");
                     }
+                }else {
+                    command_success_flag = true;
                 }
             }
         } catch (InterruptedException exception) {
@@ -129,6 +147,8 @@ public abstract class AbstractCommandDispatch<P extends Parameters> extends Abst
                 //todo 如果需要分析日志获取applicationId，可以在这里处理
                 LOG.info(line);
 
+                //todo 记录运行日志
+                logStorage.write(this.logStorageFile, line);
                 if (processLogThread.isInterrupted()) {
                     throw new InterruptedException();
                 }
@@ -173,7 +193,6 @@ public abstract class AbstractCommandDispatch<P extends Parameters> extends Abst
         return false;
     }
 
-
     /**
      * 判断进程退出值是否为0
      */
@@ -186,5 +205,13 @@ public abstract class AbstractCommandDispatch<P extends Parameters> extends Abst
      */
     private boolean isKilled(int exitValue) {
         return exitValue == 130 || exitValue == 143;
+    }
+
+    private void buildLogStorageFile() {
+        this.logStorageFile = String.format("%s/%s/%s.%s"
+                ,this.filePrefix + "/log"
+                ,DateFormatUtils.format(new Date(), "yyyyMMdd")
+                ,this.dispatchContext.getUid()
+                ,"txt");
     }
 }

@@ -19,4 +19,6 @@ public class DispatchContext {
     private String Uid;
 
     private String dispatchParameters;
+
+    private String logStorageType;
 }

@@ -2,12 +2,13 @@ package com.jm.dispatch.log;
 
 
 import com.jm.dispatch.log.model.LogResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
 
 /**
  * TODO
@@ -21,20 +22,28 @@ public class LocalLogStorage implements LogStorage {
 
     private static final String ENCODING = "utf-8";
 
-    @Override
-    public void write(String filePath, List<String> messages) throws IOException {
-        if(!new File(filePath).exists()){
-            throw new IOException("文件不存在");
-        }
-        FileWriter writer = new FileWriter(filePath, true);
-        BufferedWriter bufferedWriter = new BufferedWriter(writer);
+    private static final Logger LOG = LoggerFactory.getLogger(LocalLogStorage.class);
 
-        for (String message : messages) {
+    @Override
+    public void write(String filePath, String message) throws IOException {
+        FileWriter writer = null;
+        try{
+            File file = new File(filePath);
+            if(!file.exists()){
+                file.mkdir();
+            }
+            writer = new FileWriter(filePath, true);
+            BufferedWriter bufferedWriter = new BufferedWriter(writer);
+
             bufferedWriter.write(message);
             bufferedWriter.newLine();
+            bufferedWriter.flush();
+        }catch (Exception e){
+            LOG.error(e.getMessage());
+            throw new RuntimeException(e.getMessage());
+        }finally {
+            writer.close();
         }
-        bufferedWriter.flush();
-        writer.close();
     }
 
     @Override
@@ -76,12 +85,6 @@ public class LocalLogStorage implements LogStorage {
             line = line + "\n";
             builder.append(line);
         }
-
-        //todo 流式读取文件
-//        String message = Files.lines(Paths.get(filePath))
-//                .parallel()
-//                .collect(Collectors.joining(System.lineSeparator()));
-
         return new LogResult(-1l, builder.toString());
     }
 }

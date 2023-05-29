@@ -14,7 +14,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.rmi.RemoteException;
-import java.util.List;
 
 /**
  * TODO
@@ -42,14 +41,13 @@ public class HdfsLogStorage implements LogStorage{
     }
 
     @Override
-    public void write(String filePath, List<String> messages) throws IOException {
+    public void write(String filePath, String message) throws IOException {
         init();
         FSDataOutputStream fos = null;
         try {
-            fos = fs.append(new Path(filePath));
-            for (String message : messages) {
-                fos.write(message.getBytes(StandardCharsets.UTF_8));
-            }
+            Path path = new Path(filePath);
+            fos = !fs.exists(path) ? fs.create(path) : fs.append(path);
+            fos.write(message.getBytes(StandardCharsets.UTF_8));
         }catch (Exception e){
             LOG.error(e.getMessage());
         }finally {
