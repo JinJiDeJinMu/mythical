@@ -23,17 +23,24 @@ public abstract class AbstractDispatch<P extends Parameters> implements Dispatch
 
     public AbstractDispatch(String dispatchContext){
         this.dispatchContext = JSONUtil.toBean(dispatchContext,DispatchContext.class);
-        buildParameters();
+        this.parameters = transformParameters();
         selectLogStorage();
     }
 
-    protected void buildParameters() {
-        this.parameters = JSONUtil.toBean(dispatchContext.getDispatchParameters(), getParametersClass());
+    protected P transformParameters() {
+        return JSONUtil.toBean(dispatchContext.getDispatchParameters(), getParametersClass());
     }
 
     protected void selectLogStorage(){
-        String logStorageType = Optional.ofNullable(this.dispatchContext.getLogStorageType()).orElse("hdfs");
+        String logStorageType = Optional.ofNullable(this.dispatchContext.getLogStorageType()).orElse("local");
         this.logStorage = logStorageType.equalsIgnoreCase("hdfs")?new HdfsLogStorage():new LocalLogStorage();
+    }
+
+    @Override
+    public void init() {
+        if(parameters == null || !parameters.checkParameters()){
+            throw new RuntimeException("参数校验失败");
+        }
     }
 
     protected abstract Class<P> getParametersClass();
@@ -48,15 +55,13 @@ public abstract class AbstractDispatch<P extends Parameters> implements Dispatch
             //---------------
             doRun();
 
-            //--------------
-            postRun();
-
 
         }catch (Exception e){
            e.printStackTrace();
         }finally {
             try {
-                clear();
+                //--------------
+                postRun();
             }catch (Exception e){
                 e.printStackTrace();
             }
@@ -69,5 +74,4 @@ public abstract class AbstractDispatch<P extends Parameters> implements Dispatch
 
     protected abstract void postRun();
 
-    protected abstract void clear();
 }

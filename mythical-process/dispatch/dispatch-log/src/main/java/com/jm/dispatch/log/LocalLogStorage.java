@@ -2,6 +2,7 @@ package com.jm.dispatch.log;
 
 
 import com.jm.dispatch.log.model.LogResult;
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,7 +31,12 @@ public class LocalLogStorage implements LogStorage {
         try{
             File file = new File(filePath);
             if(!file.exists()){
-                file.mkdir();
+                String parent = file.getParent();
+                File parentFile = new File(parent);
+                if(!parentFile.exists()){
+                    parentFile.mkdirs();
+                }
+                file.createNewFile();
             }
             writer = new FileWriter(filePath, true);
             BufferedWriter bufferedWriter = new BufferedWriter(writer);
@@ -42,7 +48,9 @@ public class LocalLogStorage implements LogStorage {
             LOG.error(e.getMessage());
             throw new RuntimeException(e.getMessage());
         }finally {
-            writer.close();
+            if(writer != null){
+                writer.close();
+            }
         }
     }
 

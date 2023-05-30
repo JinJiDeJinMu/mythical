@@ -20,5 +20,7 @@ public class DispatchContext {
 
     private String dispatchParameters;
 
+    private String executePath;
+
     private String logStorageType;
 }

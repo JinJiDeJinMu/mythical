@@ -21,6 +21,8 @@ package com.jm.utils;
 import org.apache.commons.lang.StringUtils;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class SystemUtils {
@@ -86,5 +88,17 @@ public class SystemUtils {
         } catch (Exception e) {
             throw new RuntimeException("获取进程ID异常", e);
         }
+    }
+
+    public static List<String> buildCmdArgs() {
+        List<String> args = new ArrayList<>();
+        if (SystemUtils.isWindows()) {
+            args.add("cmd.exe");
+            args.add("/c");
+        } else {
+            args.add("bash");
+            args.add("-c");
+        }
+        return args;
     }
 }

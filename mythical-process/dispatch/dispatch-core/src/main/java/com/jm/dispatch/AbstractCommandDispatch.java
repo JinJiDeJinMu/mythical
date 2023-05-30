@@ -37,7 +37,6 @@ public abstract class AbstractCommandDispatch<P extends Parameters> extends Abst
     protected String logStorageFile;
 
     protected Boolean command_success_flag = false;
-    private static String filePrefix = "/usr/process";
 
     private static String JM_RUN_SUCCESS_CODE = "jm_run_success";
     private static String JM_RUN_ERROR_CODE = "jm_run_error";
@@ -97,14 +96,11 @@ public abstract class AbstractCommandDispatch<P extends Parameters> extends Abst
             //超时阻塞
             boolean isFinish = process.waitFor(timeout, timeUnit);
             if (!isFinish) {
-                //超过超时时间限制,主动去kill
-                boolean killSuccess = softHardKill(processId);
+                softHardKill(processId);
             } else {
                 int exitValue = process.exitValue();
                 if (!isSuccess(exitValue)) {
-                    //判断是否是kill
                     if (isKilled(exitValue)) {
-                        // 进程被kill
                         LOG.info("进程被kill");
                     }
                 }else {
@@ -144,7 +140,6 @@ public abstract class AbstractCommandDispatch<P extends Parameters> extends Abst
              BufferedReader inReader = new BufferedReader(in)) {
             String line;
             while ((line = inReader.readLine()) != null) {
-                //todo 如果需要分析日志获取applicationId，可以在这里处理
                 LOG.info(line);
 
                 //todo 记录运行日志
@@ -154,7 +149,7 @@ public abstract class AbstractCommandDispatch<P extends Parameters> extends Abst
                 }
             }
         } catch (Throwable e) {
-            LOG.error(e.getMessage());
+            LOG.error("处理运行日志出现异常" + e.getMessage());
         }
     }
 
@@ -209,7 +204,7 @@ public abstract class AbstractCommandDispatch<P extends Parameters> extends Abst
 
     private void buildLogStorageFile() {
         this.logStorageFile = String.format("%s/%s/%s.%s"
-                ,this.filePrefix + "/log"
+                ,this.dispatchContext.getExecutePath() + "/log"
                 ,DateFormatUtils.format(new Date(), "yyyyMMdd")
                 ,this.dispatchContext.getUid()
                 ,"txt");
