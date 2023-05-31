@@ -12,7 +12,6 @@
     <modules>
         <module>dispatch</module>
         <module>storage</module>
-        <module>dispatch/dispatch-log</module>
     </modules>
 
     <properties>
