@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>storage-core-hdfs</module>
+        <module>storage-core-spi</module>
     </modules>
 
     <properties>

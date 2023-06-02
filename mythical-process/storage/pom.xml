@@ -10,7 +10,6 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>storage-core</module>
-        <module>storage-core/storage-core-spi</module>
     </modules>
 
     <properties>

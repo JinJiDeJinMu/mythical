@@ -12,6 +12,7 @@
     <modules>
         <module>dispatch</module>
         <module>storage</module>
+        <module>spark-lineage-analysis</module>
     </modules>
 
     <properties>
