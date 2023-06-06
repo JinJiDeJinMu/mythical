@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: digital-intelligence-gateway
+  cloud:
+    nacos:
+      config:
+        server-addr: localhost:8848
+        file-extension: yml
+        namespace: public
+        data-id: digital-intelligence-gateway
+server:
+  port: 18001
