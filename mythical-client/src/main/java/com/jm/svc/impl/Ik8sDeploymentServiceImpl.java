@@ -1,7 +1,7 @@
-package com.jm.service.impl;
+package com.jm.svc.impl;
 
 import com.jm.config.K8sClientConfig;
-import com.jm.service.IK8sDeploymentService;
+import com.jm.svc.IK8sDeploymentService;
 import io.fabric8.kubernetes.api.model.apps.Deployment;
 import io.fabric8.kubernetes.api.model.apps.DeploymentBuilder;
 import io.fabric8.kubernetes.api.model.apps.DeploymentList;

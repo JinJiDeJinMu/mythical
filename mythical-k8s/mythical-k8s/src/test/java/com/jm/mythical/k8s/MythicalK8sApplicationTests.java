@@ -1,7 +1,6 @@
-package com.jm;
+package com.jm.mythical.k8s;
 
-import cn.hutool.json.JSONUtil;
-import com.jm.svc.IK8sPodService;
+import com.jm.mythical.k8s.service.IK8sPodService;
 import io.fabric8.kubernetes.api.model.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
-class MythicalClientApplicationTests {
+class MythicalK8sApplicationTests {
 
     @Autowired
     IK8sPodService ik8sPodService;
@@ -22,7 +21,13 @@ class MythicalClientApplicationTests {
 
 
     @Test
-    public void test() {
+    public void getLog() {
+        String log = ik8sPodService.log("jinmu", "tomcat-test");
+        System.out.println(log);
+    }
+
+    @Test
+    public void createPod() {
         ObjectMeta metadata = new ObjectMeta();
         metadata.setNamespace("jinmu");
         metadata.setName("tomcat-test");
@@ -47,15 +52,6 @@ class MythicalClientApplicationTests {
 
 
         Pod pod = ik8sPodService.create("jinmu", podBuilder);
-
-        System.out.println(JSONUtil.toJsonStr(pod));
     }
 
-    @Test
-    public void getLog() {
-        String log = ik8sPodService.log("jinmu", "tomcat-test");
-        System.out.println(log);
-
-
-    }
 }

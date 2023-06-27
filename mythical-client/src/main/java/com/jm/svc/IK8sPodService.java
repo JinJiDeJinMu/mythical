@@ -1,4 +1,4 @@
-package com.jm.service;
+package com.jm.svc;
 
 import io.fabric8.kubernetes.api.model.Pod;
 import io.fabric8.kubernetes.api.model.PodBuilder;

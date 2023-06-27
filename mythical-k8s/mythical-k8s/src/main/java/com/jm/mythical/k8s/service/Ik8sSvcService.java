@@ -1,4 +1,4 @@
-package com.jm.service;
+package com.jm.mythical.k8s.service;
 
 import io.fabric8.kubernetes.api.model.Service;
 import io.fabric8.kubernetes.api.model.ServiceBuilder;

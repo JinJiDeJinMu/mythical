@@ -1,7 +1,7 @@
-package com.jm.service.impl;
+package com.jm.svc.impl;
 
 import com.jm.config.K8sClientConfig;
-import com.jm.service.IK8sPodService;
+import com.jm.svc.IK8sPodService;
 import io.fabric8.kubernetes.api.model.Pod;
 import io.fabric8.kubernetes.api.model.PodBuilder;
 import io.fabric8.kubernetes.api.model.PodList;

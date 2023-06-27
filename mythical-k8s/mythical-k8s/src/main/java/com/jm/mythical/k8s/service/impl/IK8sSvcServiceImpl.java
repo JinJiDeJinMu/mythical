@@ -1,7 +1,8 @@
-package com.jm.service.impl;
+package com.jm.mythical.k8s.service.impl;
 
-import com.jm.config.K8sClientConfig;
-import com.jm.service.Ik8sSvcService;
+
+import com.jm.mythical.k8s.config.K8sClientConfig;
+import com.jm.mythical.k8s.service.Ik8sSvcService;
 import io.fabric8.kubernetes.api.model.Service;
 import io.fabric8.kubernetes.api.model.ServiceBuilder;
 import io.fabric8.kubernetes.api.model.ServiceList;
