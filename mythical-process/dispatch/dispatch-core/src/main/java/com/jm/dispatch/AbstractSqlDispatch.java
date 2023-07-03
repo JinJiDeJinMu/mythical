@@ -10,6 +10,7 @@ import java.sql.*;
 import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
+import java.util.regex.Pattern;
 
 /**
  * TODO
@@ -17,16 +18,17 @@ import java.util.Properties;
  * @Author jinmu
  * @Date 2023/5/15 20:44
  */
-public abstract class AbstractSqlDispatch <P extends SqlDispatchParameters> extends AbstractDispatch<P>{
+public abstract class AbstractSqlDispatch<P extends SqlDispatchParameters> extends AbstractDispatch<P> {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AbstractSqlDispatch.class);
-    private Connection connection;
+    protected static final Logger LOG = LoggerFactory.getLogger(AbstractSqlDispatch.class);
+    protected static final Pattern APPLICATION_REGEX = Pattern.compile("application_\\d+_\\d+");
+    protected Connection connection;
 
-    private Statement statement;
+    protected Statement statement;
 
-    private SQLHelper sqlHelper;
+    protected SQLHelper sqlHelper;
 
-    private static final int maxSQLNum =  10000;
+    private static final int maxSQLNum = 10000;
 
     public AbstractSqlDispatch(String dispatchContext) {
         super(dispatchContext);
@@ -72,16 +74,14 @@ public abstract class AbstractSqlDispatch <P extends SqlDispatchParameters> exte
                     statement.executeUpdate(sql);
                 } else if (sqlHelper.checkSelect(sql)) {
                     ResultSet resultSet = statement.executeQuery(sql);
-                    //todo 结果处理
+                    //todo 结果处理,保存到指定地址
                     InputStream csvStream = sqlHelper.transformCSVStream(resultSet);
                 }
-
+                handleRunLog(i, sql, statement);
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
         }
-        //todo
-
     }
 
     @Override
@@ -107,13 +107,15 @@ public abstract class AbstractSqlDispatch <P extends SqlDispatchParameters> exte
             properties.setProperty("password", parameters.getPassword());
 
             Optional<String> optional = Optional.ofNullable(parameters.getDriverClassName());
-            if(optional.isPresent()){
+            if (optional.isPresent()) {
                 properties.setProperty("driveClassName", optional.get());
             }
-            return DriverManager.getConnection(url,properties);
+            return DriverManager.getConnection(url, properties);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
+
+    protected abstract void handleRunLog(Integer index, String sql, Statement statement);
 
 }

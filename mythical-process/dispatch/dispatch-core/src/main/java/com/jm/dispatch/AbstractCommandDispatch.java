@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * TODO
@@ -24,7 +25,7 @@ import java.util.concurrent.TimeUnit;
  */
 public abstract class AbstractCommandDispatch<P extends Parameters> extends AbstractDispatch<P> {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AbstractCommandDispatch.class);
+    protected static final Logger LOG = LoggerFactory.getLogger(AbstractCommandDispatch.class);
     protected FutureTask processLogFuture;
     protected Thread processLogThread;
     protected long timeout = 3600L;
@@ -36,7 +37,7 @@ public abstract class AbstractCommandDispatch<P extends Parameters> extends Abst
     private ProcessBuilder processBuilder;
     protected String logStorageFile;
 
-    protected Boolean command_success_flag = false;
+    protected AtomicBoolean command_success_flag = new AtomicBoolean(false);
 
     private static String JM_RUN_SUCCESS_CODE = "jm_run_success";
     private static String JM_RUN_ERROR_CODE = "jm_run_error";
@@ -77,7 +78,7 @@ public abstract class AbstractCommandDispatch<P extends Parameters> extends Abst
     protected void postRun() {
         LOG.info("post run...........");
         try {
-            logStorage.write(this.logStorageFile,command_success_flag?JM_RUN_SUCCESS_CODE:JM_RUN_ERROR_CODE);
+            logStorage.write(this.logStorageFile, command_success_flag.get() ? JM_RUN_SUCCESS_CODE : JM_RUN_ERROR_CODE);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -104,7 +105,7 @@ public abstract class AbstractCommandDispatch<P extends Parameters> extends Abst
                         LOG.info("进程被kill");
                     }
                 }else {
-                    command_success_flag = true;
+                    command_success_flag.getAndSet(true);
                 }
             }
         } catch (InterruptedException exception) {

@@ -53,7 +53,7 @@ public class DeploymentController {
     }
 
     @PostMapping(value = "/get")
-    public Deployment get(GetDeploymentReq getDeploymentReq) {
+    public Deployment get(@RequestBody GetDeploymentReq getDeploymentReq) {
         return deploymentFacade.getDeployment(getDeploymentReq);
     }
 

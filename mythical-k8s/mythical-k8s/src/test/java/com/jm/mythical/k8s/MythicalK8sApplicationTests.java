@@ -1,5 +1,6 @@
 package com.jm.mythical.k8s;
 
+import com.jm.mythical.k8s.config.K8sClientConfig;
 import com.jm.mythical.k8s.service.IK8sPodService;
 import io.fabric8.kubernetes.api.model.*;
 import org.junit.jupiter.api.Test;
@@ -15,6 +16,10 @@ class MythicalK8sApplicationTests {
     @Autowired
     IK8sPodService ik8sPodService;
 
+
+    @javax.annotation.Resource
+    K8sClientConfig client;
+
     @Test
     void contextLoads() {
     }
@@ -22,14 +27,16 @@ class MythicalK8sApplicationTests {
 
     @Test
     public void getLog() {
-        String log = ik8sPodService.log("jinmu", "tomcat-test");
+        String log = client.getClient().pods().inNamespace("flink").withName("tomcat-test").getLog();
         System.out.println(log);
+//        PodList flink = ik8sPodService.list("default");
+//        System.out.println(flink);
     }
 
     @Test
     public void createPod() {
         ObjectMeta metadata = new ObjectMeta();
-        metadata.setNamespace("jinmu");
+        metadata.setNamespace("flink");
         metadata.setName("tomcat-test");
 
         List<Container> containers = new ArrayList<>();
@@ -41,7 +48,7 @@ class MythicalK8sApplicationTests {
         containers.add(container);
 
         podSpec.setContainers(containers);
-        podSpec.setServiceAccount("default");
+        //podSpec.setServiceAccount("default");
 
         PodStatus podStatus = new PodStatus();
 
@@ -51,7 +58,7 @@ class MythicalK8sApplicationTests {
                 .withStatus(podStatus);
 
 
-        Pod pod = ik8sPodService.create("jinmu", podBuilder);
+        Pod pod = ik8sPodService.create("default", podBuilder);
     }
 
 }
