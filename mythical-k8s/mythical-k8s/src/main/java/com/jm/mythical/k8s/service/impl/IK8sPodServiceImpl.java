@@ -1,6 +1,7 @@
 package com.jm.mythical.k8s.service.impl;
 
 
+import cn.hutool.core.map.MapUtil;
 import com.jm.mythical.k8s.config.K8sClientConfig;
 import com.jm.mythical.k8s.service.IK8sPodService;
 import io.fabric8.kubernetes.api.model.Pod;
@@ -8,11 +9,14 @@ import io.fabric8.kubernetes.api.model.PodBuilder;
 import io.fabric8.kubernetes.api.model.PodList;
 import io.fabric8.kubernetes.api.model.StatusDetails;
 import io.fabric8.kubernetes.client.dsl.LogWatch;
+import io.fabric8.kubernetes.client.dsl.NonNamespaceOperation;
+import io.fabric8.kubernetes.client.dsl.PodResource;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.OutputStream;
 import java.util.List;
+import java.util.Map;
 
 /**
  * TODO
@@ -27,9 +31,13 @@ public class IK8sPodServiceImpl implements IK8sPodService {
     K8sClientConfig k8sClientConfig;
 
     @Override
-    public PodList list(String namespace) {
+    public PodList list(String namespace, Map<String, String> labels) {
         try {
-            return k8sClientConfig.getClient().pods().inNamespace(namespace).list();
+            NonNamespaceOperation<Pod, PodList, PodResource> operation = k8sClientConfig.getClient().pods().inNamespace(namespace);
+            if (MapUtil.isNotEmpty(labels)) {
+                operation.withLabels(labels);
+            }
+            return operation.list();
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }

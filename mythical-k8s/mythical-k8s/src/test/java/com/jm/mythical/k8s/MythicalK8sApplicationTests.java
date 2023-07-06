@@ -27,7 +27,7 @@ class MythicalK8sApplicationTests {
 
     @Test
     public void getLog() {
-        String log = client.getClient().pods().inNamespace("flink").withName("tomcat-test").getLog();
+        String log = client.getClient().pods().inNamespace("flink-operator").withName("tomcat-test").getLog();
         System.out.println(log);
 //        PodList flink = ik8sPodService.list("default");
 //        System.out.println(flink);
@@ -36,7 +36,7 @@ class MythicalK8sApplicationTests {
     @Test
     public void createPod() {
         ObjectMeta metadata = new ObjectMeta();
-        metadata.setNamespace("flink");
+        metadata.setNamespace("flink-operator");
         metadata.setName("tomcat-test");
 
         List<Container> containers = new ArrayList<>();
@@ -54,11 +54,12 @@ class MythicalK8sApplicationTests {
 
         PodBuilder podBuilder = new PodBuilder()
                 .withKind("Pod")
+                .withMetadata(metadata)
                 .withSpec(podSpec)
                 .withStatus(podStatus);
 
 
-        Pod pod = ik8sPodService.create("default", podBuilder);
+        Pod pod = ik8sPodService.create("flink-operator", podBuilder);
     }
 
 }

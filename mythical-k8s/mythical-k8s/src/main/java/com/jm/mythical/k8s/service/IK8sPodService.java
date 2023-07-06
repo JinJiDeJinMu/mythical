@@ -8,6 +8,7 @@ import io.fabric8.kubernetes.client.dsl.LogWatch;
 
 import java.io.OutputStream;
 import java.util.List;
+import java.util.Map;
 
 /**
  * TODO
@@ -17,13 +18,14 @@ import java.util.List;
  */
 public interface IK8sPodService {
 
-    PodList list(String namespace);
+    PodList list(String namespace, Map<String, String> labels);
 
     Pod create(String namespace, PodBuilder podBuilder);
 
     Pod create(String namespace, String podName, String path);
 
     Pod get(String namespace, String podName);
+
 
     Pod edit(String namespace, String podName, PodBuilder podBuilder);
 
