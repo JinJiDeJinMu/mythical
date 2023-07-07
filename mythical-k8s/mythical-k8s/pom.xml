@@ -14,7 +14,7 @@
     <name>mythical-k8s</name>
     <description>mythical-k8s</description>
     <properties>
-        <java.version>11</java.version>
+        <java.version>8</java.version>
     </properties>
     <dependencies>
         <dependency>
@@ -38,11 +38,6 @@
             <groupId>io.fabric8</groupId>
             <artifactId>kubernetes-client</artifactId>
             <version>6.7.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.flink</groupId>
-            <artifactId>flink-kubernetes-operator</artifactId>
-            <version>1.5.0</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
