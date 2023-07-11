@@ -7,5 +7,5 @@ docker build --platform linux/amd64 -t mythical-k8s:latest .
 #admin  Harbor12345
 docker tag mythical-k8s:latest 192.168.217.140:18000/jinmu/mythical-k8s:v1.0
 docker push 192.168.217.140:18000/jinmu/mythical-k8s:v1.0
-docker run -p 18080:8080 -d 192.168.217.140:18000/jinmu/mythical-client:v1.0
+docker run -p 18080:8080 -d 192.168.217.140:18000/jinmu/mythical-k8s:v1.0
 docker ps
