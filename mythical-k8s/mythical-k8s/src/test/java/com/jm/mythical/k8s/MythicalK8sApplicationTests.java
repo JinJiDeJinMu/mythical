@@ -3,6 +3,10 @@ package com.jm.mythical.k8s;
 import com.jm.mythical.k8s.config.K8sClientConfig;
 import com.jm.mythical.k8s.service.IK8sDeploymentService;
 import com.jm.mythical.k8s.service.IK8sPodService;
+import com.jm.mythical.k8s.spark.operator.crds.RestartPolicy;
+import com.jm.mythical.k8s.spark.operator.crds.SparkApplication;
+import com.jm.mythical.k8s.spark.operator.crds.SparkApplicationSpec;
+import com.jm.mythical.k8s.spark.operator.crds.SparkPodSpec;
 import io.fabric8.kubernetes.api.model.*;
 import org.apache.flink.kubernetes.operator.api.FlinkDeployment;
 import org.apache.flink.kubernetes.operator.api.spec.*;
@@ -70,7 +74,7 @@ class MythicalK8sApplicationTests {
 
 
     @Test
-    public void operatorTest() {
+    public void flinkOperatorTest() {
         FlinkDeployment flinkDeployment = new FlinkDeployment();
         flinkDeployment.setApiVersion("flink.apache.org/v1beta1");
         flinkDeployment.setKind("FlinkDeployment");
@@ -119,6 +123,68 @@ class MythicalK8sApplicationTests {
 
 
         List<StatusDetails> delete = client.getClient().resource(flinkDeployment).delete();
+
+    }
+
+    @Test
+    public void sparkOperatorTest() {
+        SparkApplication sparkApplication = new SparkApplication();
+        ObjectMeta metadata = new ObjectMeta();
+        metadata.setName("test-spark-operator");
+        metadata.setNamespace("spark-operator");
+        sparkApplication.setMetadata(metadata);
+
+        SparkPodSpec driver =
+                SparkPodSpec.Builder()
+                        .cores(1)
+                        .memory("1G")
+                        .serviceAccount("my-release-spark")
+                        .build();
+
+        SparkPodSpec executor =
+                SparkPodSpec.Builder()
+                        .cores(1)
+                        .instances(1)
+                        .memory("1G")
+                        .build();
+
+        Map<String, String> sparkConfMap = new HashMap<>();
+//        sparkConfMap.put(
+//                SparkConfiguration.SPARK_KUBERNETES_FILE_UPLOAD_PATH().key(),
+//                sparkConfig.getK8sFileUploadPath());
+
+        SparkApplicationSpec sparkApplicationSpec =
+                SparkApplicationSpec.Builder()
+                        .type("Scala")
+                        .mode("cluster")
+                        .image("https://archive.apache.org/dist/spark/spark-3.1.1")
+                        .imagePullPolicy("Always")
+                        .mainClass("org.apache.spark.examples.SparkPi")
+                        .mainApplicationFile("local:///opt/spark/examples/jars/spark-examples_2.12-3.1.1.jar")
+                        .sparkVersion("3.1.1")
+                        .restartPolicy(new RestartPolicy("Never"))
+                        .driver(driver)
+                        .executor(executor)
+                        .sparkConf(sparkConfMap)
+                        .build();
+
+
+        sparkApplication.setSpec(sparkApplicationSpec);
+
+        SparkApplication application = client.getClient().resource(sparkApplication).create();
+    }
+
+
+    @Test
+    public void deleteSparkApplication() {
+        SparkApplication sparkApplication = new SparkApplication();
+        ObjectMeta metadata = new ObjectMeta();
+        metadata.setName("test-spark-operator");
+        metadata.setNamespace("spark-operator");
+        sparkApplication.setMetadata(metadata);
+
+
+        List<StatusDetails> delete = client.getClient().resource(sparkApplication).delete();
 
     }
 }
