@@ -1,6 +1,7 @@
 package com.jm.mythical.k8s;
 
 import com.jm.mythical.k8s.config.K8sClientConfig;
+import com.jm.mythical.k8s.flink.operator.listener.TestingListener;
 import com.jm.mythical.k8s.service.IK8sDeploymentService;
 import com.jm.mythical.k8s.service.IK8sPodService;
 import com.jm.mythical.k8s.spark.operator.crds.RestartPolicy;
@@ -8,8 +9,15 @@ import com.jm.mythical.k8s.spark.operator.crds.SparkApplication;
 import com.jm.mythical.k8s.spark.operator.crds.SparkApplicationSpec;
 import com.jm.mythical.k8s.spark.operator.crds.SparkPodSpec;
 import io.fabric8.kubernetes.api.model.*;
+import io.fabric8.kubernetes.client.Watcher;
+import io.fabric8.kubernetes.client.WatcherException;
 import org.apache.flink.kubernetes.operator.api.FlinkDeployment;
+import org.apache.flink.kubernetes.operator.api.listener.FlinkResourceListener;
 import org.apache.flink.kubernetes.operator.api.spec.*;
+import org.apache.flink.kubernetes.operator.api.status.FlinkDeploymentStatus;
+import org.apache.flink.kubernetes.operator.metrics.MetricManager;
+import org.apache.flink.kubernetes.operator.utils.EventRecorder;
+import org.apache.flink.kubernetes.operator.utils.StatusRecorder;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -28,14 +36,12 @@ class MythicalK8sApplicationTests {
     @Autowired
     IK8sDeploymentService ik8sDeploymentService;
 
-
     @javax.annotation.Resource
     K8sClientConfig client;
 
     @Test
     void contextLoads() {
     }
-
 
     @Test
     public void getLog() {
@@ -210,6 +216,21 @@ class MythicalK8sApplicationTests {
 
     }
 
+
+    @Test
+    public void testFlinkDeploymentListener(com.jm.mythical.k8s.flink.operator.FlinkDeployment flinkDeployment) {
+        TestingListener listener1 = new TestingListener();
+        TestingListener listener2 = new TestingListener();
+        ArrayList<FlinkResourceListener> listeners = new ArrayList<>();
+        listeners.add(listener1);
+        listeners.add(listener2);
+
+        StatusRecorder<FlinkDeployment, FlinkDeploymentStatus> statusRecorder =
+                StatusRecorder.create(client.getClient(), new MetricManager<>(), listeners);
+        EventRecorder eventRecorder = EventRecorder.create(client.getClient(), listeners);
+
+    }
+
     @Test
     public void sparkOperatorTest() {
         SparkApplication sparkApplication = new SparkApplication();
@@ -233,6 +254,7 @@ class MythicalK8sApplicationTests {
                         .build();
 
         Map<String, String> sparkConfMap = new HashMap<>();
+
 //        sparkConfMap.put(
 //                SparkConfiguration.SPARK_KUBERNETES_FILE_UPLOAD_PATH().key(),
 //                sparkConfig.getK8sFileUploadPath());
@@ -241,7 +263,7 @@ class MythicalK8sApplicationTests {
                 SparkApplicationSpec.Builder()
                         .type("Scala")
                         .mode("cluster")
-                        .image("apache/spark:v3.3.1")
+                        .image("apache/spark:a3.3.1")
                         .imagePullPolicy("Always")
                         .mainClass("org.apache.spark.examples.SparkPi")
                         .mainApplicationFile("local:///opt/spark/examples/jars/spark-examples_2.12-3.3.1.jar")
@@ -256,6 +278,30 @@ class MythicalK8sApplicationTests {
         sparkApplication.setSpec(sparkApplicationSpec);
 
         SparkApplication application = client.getClient().resource(sparkApplication).create();
+
+        testWatch();
+    }
+
+    @Test
+    public void testWatch() {
+        SparkApplication sparkApplication = new SparkApplication();
+        ObjectMeta metadata = new ObjectMeta();
+        metadata.setName("test-spark-operator");
+        metadata.setNamespace("spark-operator");
+        sparkApplication.setMetadata(metadata);
+
+        client.getClient().pods().inNamespace("spark-operator").withName("test-spark-operator-driver").watch(new Watcher<Pod>() {
+            @Override
+            public void eventReceived(Action action, Pod pod) {
+                System.out.println("action = " + action);
+                System.out.println("pod = " + pod);
+            }
+
+            @Override
+            public void onClose(WatcherException e) {
+
+            }
+        });
     }
 
 

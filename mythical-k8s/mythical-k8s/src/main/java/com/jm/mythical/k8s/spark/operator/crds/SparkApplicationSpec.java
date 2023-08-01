@@ -47,6 +47,14 @@ public class SparkApplicationSpec implements KubernetesResource {
 
   private SparkPodSpec executor;
 
+  /**
+   * sparkConf example(spark history)
+   * spec:
+   * sparkConf:
+   * spark.ui.port: "4045"
+   * spark.eventLog.enabled: "true"
+   * spark.eventLog.dir": "hdfs://hdfs-namenode-1:8020/spark/spark-events"
+   */
   private Map<String, String> sparkConf;
 
   public static SparkApplicationSpecBuilder Builder() {
