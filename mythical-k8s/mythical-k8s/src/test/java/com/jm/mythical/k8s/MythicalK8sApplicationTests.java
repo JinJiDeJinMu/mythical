@@ -4,6 +4,7 @@ import cn.hutool.json.JSONUtil;
 import com.jm.mythical.k8s.config.K8sClientConfig;
 import com.jm.mythical.k8s.flink.operator.listener.TestingListener;
 import com.jm.mythical.k8s.operator.spark.deployment.OperatorKubernetesClusterDeployment;
+import com.jm.mythical.k8s.operator.spark.deployment.context.SparkContext;
 import com.jm.mythical.k8s.service.IK8sDeploymentService;
 import com.jm.mythical.k8s.service.IK8sPodService;
 import com.jm.mythical.k8s.spark.operator.crds.RestartPolicy;
@@ -11,8 +12,8 @@ import com.jm.mythical.k8s.spark.operator.crds.SparkApplication;
 import com.jm.mythical.k8s.spark.operator.crds.SparkApplicationSpec;
 import com.jm.mythical.k8s.spark.operator.crds.SparkPodSpec;
 import io.fabric8.kubernetes.api.model.*;
+import io.fabric8.kubernetes.api.model.apiextensions.v1.CustomResourceDefinition;
 import io.fabric8.kubernetes.api.model.apiextensions.v1.CustomResourceDefinitionList;
-import io.fabric8.kubernetes.api.model.apps.Deployment;
 import io.fabric8.kubernetes.client.CustomResource;
 import io.fabric8.kubernetes.client.Watcher;
 import io.fabric8.kubernetes.client.WatcherException;
@@ -31,6 +32,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @SpringBootTest
 class MythicalK8sApplicationTests {
@@ -326,7 +328,9 @@ class MythicalK8sApplicationTests {
 
     @Test
     public void testOperator() {
-        OperatorKubernetesClusterDeployment clusterDeployment = new OperatorKubernetesClusterDeployment("");
+        OperatorKubernetesClusterDeployment clusterDeployment = new OperatorKubernetesClusterDeployment(new SparkContext());
+
+        clusterDeployment.init();
 
         clusterDeployment.process();
 
@@ -334,15 +338,17 @@ class MythicalK8sApplicationTests {
     }
 
     @Test
-    public void tt() {
-        Deployment deployment = client.getClient().apps().deployments().inNamespace("spark-operator").withName("my-release-spark-operator").get();
+    public void customResourceDefinitionTest() {
 
-        System.out.println(JSONUtil.toJsonStr(deployment));
-
-
-        CustomResourceDefinitionList resourceDefinitionList = client.getClient().apiextensions().v1().customResourceDefinitions().list();
+        CustomResourceDefinitionList customResourceDefinitionList =
+                client.getClient().apiextensions().v1().customResourceDefinitions().list();
 
         String sparkApplicationCRDName = CustomResource.getCRDName(SparkApplication.class);
+        List<CustomResourceDefinition> customResourceDefinitions = customResourceDefinitionList.getItems().stream()
+                .filter(crd -> crd.getMetadata().getName().equals(sparkApplicationCRDName))
+                .collect(Collectors.toList());
+
+        System.out.println(JSONUtil.toJsonStr(customResourceDefinitions));
 
     }
 }

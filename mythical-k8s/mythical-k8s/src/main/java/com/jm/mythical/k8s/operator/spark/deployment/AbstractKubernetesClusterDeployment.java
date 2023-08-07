@@ -13,13 +13,11 @@ public abstract class AbstractKubernetesClusterDeployment<P extends Context> imp
 
     protected SparkConfig sparkConfig;
 
+    protected P p;
+
 
     public AbstractKubernetesClusterDeployment(P p) {
-
-    }
-
-    public AbstractKubernetesClusterDeployment(String s) {
-
+        this.p = p;
     }
 
     public abstract void preSubmit();

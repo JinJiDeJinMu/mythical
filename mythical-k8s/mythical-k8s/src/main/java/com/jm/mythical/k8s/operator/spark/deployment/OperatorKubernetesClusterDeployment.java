@@ -31,27 +31,22 @@ public class OperatorKubernetesClusterDeployment extends AbstractKubernetesClust
 
     public OperatorKubernetesClusterDeployment(SparkContext sparkContext) {
         super(sparkContext);
-        sparkConfig = sparkContext.getSparkConfig();
-    }
-
-    public OperatorKubernetesClusterDeployment(String context) {
-        super(context);
     }
 
     @Override
     public void preSubmit() {
         kubernetesClientAdapter = new KubernetesClientAdapter(
-                this.sparkConfig.getK8sMasterUrl(),
-                this.sparkConfig.getK8sCarCertData(),
-                this.sparkConfig.getK8sClientCrtData(),
-                this.sparkConfig.getK8sClientKeyData()
+                sparkConfig.getK8sMasterUrl(),
+                sparkConfig.getK8sCarCertData(),
+                sparkConfig.getK8sClientCrtData(),
+                sparkConfig.getK8sClientKeyData()
         );
 
         if (CollectionUtil.isEmpty(checkSparkOperatorIsExist())) {
             throw new RuntimeException("spark operator not exist");
         }
 
-        this.sparkApplication = getSparkApplication();
+        sparkApplication = getSparkApplication();
 
         SparkPodSpec driver =
                 SparkPodSpec.Builder()
@@ -83,12 +78,12 @@ public class OperatorKubernetesClusterDeployment extends AbstractKubernetesClust
                         .sparkConf(sparkConfig.getConf())
                         .build();
 
-        this.sparkApplication.setSpec(sparkApplicationSpec);
+        sparkApplication.setSpec(sparkApplicationSpec);
     }
 
     @Override
     public void doSubmit() {
-        SparkApplication application = this.kubernetesClientAdapter.getKubernetesClient().resource(this.sparkApplication).create();
+        SparkApplication application = this.kubernetesClientAdapter.getKubernetesClient().resource(sparkApplication).create();
 
         /**
          * 监控是否创建成功
@@ -106,6 +101,10 @@ public class OperatorKubernetesClusterDeployment extends AbstractKubernetesClust
 
     @Override
     public void init() {
+        if (p.checkParameters()) {
+            throw new RuntimeException("参数校验不通过");
+        }
+        sparkConfig = p.getSparkConfig();
     }
 
     @Override
