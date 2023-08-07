@@ -37,6 +37,8 @@ public class SparkApplicationSpec implements KubernetesResource {
 
   private String mainApplicationFile;
 
+  private String[] arguments;
+
   private String sparkVersion;
 
   private RestartPolicy restartPolicy;
@@ -48,12 +50,7 @@ public class SparkApplicationSpec implements KubernetesResource {
   private SparkPodSpec executor;
 
   /**
-   * sparkConf example(spark history)
-   * spec:
-   * sparkConf:
-   * spark.ui.port: "4045"
-   * spark.eventLog.enabled: "true"
-   * spark.eventLog.dir": "hdfs://hdfs-namenode-1:8020/spark/spark-events"
+   * SparkConf carries user-specified Spark configuration properties as they would use the  "--conf" option in spark-submit
    */
   private Map<String, String> sparkConf;
 
@@ -67,6 +64,14 @@ public class SparkApplicationSpec implements KubernetesResource {
 
   public void setSparkConf(Map<String, String> sparkConf) {
     this.sparkConf = sparkConf;
+  }
+
+  public String[] getArguments() {
+    return arguments;
+  }
+
+  public void setArguments(String[] arguments) {
+    this.arguments = arguments;
   }
 
   public String getType() {
@@ -201,12 +206,12 @@ public class SparkApplicationSpec implements KubernetesResource {
     private String imagePullPolicy;
     private String mainClass;
     private String mainApplicationFile;
+    private String[] arguments;
     private String sparkVersion;
     private RestartPolicy restartPolicy;
     private List<Volume> volumes;
     private SparkPodSpec driver;
     private SparkPodSpec executor;
-
     private Map<String, String> sparkConf;
 
     private SparkApplicationSpecBuilder() {
@@ -267,6 +272,13 @@ public class SparkApplicationSpec implements KubernetesResource {
       return this;
     }
 
+    public SparkApplicationSpecBuilder arguments(String[] arguments) {
+      if (arguments != null && arguments.length != 0) {
+        this.arguments = arguments;
+      }
+      return this;
+    }
+
     public SparkApplicationSpecBuilder sparkConf(Map<String, String> sparkConf) {
       if (sparkConf == null || sparkConf.size() == 0) {
         return this;
@@ -297,6 +309,7 @@ public class SparkApplicationSpec implements KubernetesResource {
       sparkApplicationSpec.image = this.image;
       sparkApplicationSpec.restartPolicy = this.restartPolicy;
       sparkApplicationSpec.sparkConf = this.sparkConf;
+      sparkApplicationSpec.arguments = this.arguments;
       return sparkApplicationSpec;
     }
   }

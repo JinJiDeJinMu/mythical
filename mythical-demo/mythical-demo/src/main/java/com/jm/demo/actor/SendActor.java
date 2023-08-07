@@ -29,5 +29,4 @@ public class SendActor extends UntypedAbstractActor {
         getContext().stop(getSelf());
     }
 
-
 }

@@ -30,6 +30,5 @@ public class SparkApplication extends CustomResource<SparkApplicationSpec, Spark
         implements Namespaced {
     public static final String GROUP = "sparkoperator.k8s.io";
     public static final String VERSION = "v1beta2";
-
     public static final String Kind = "SparkApplication";
 }

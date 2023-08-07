@@ -51,6 +51,12 @@
             <version>1.5.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-launcher_2.12</artifactId>
+            <version>3.3.1</version>
+        </dependency>
+
     </dependencies>
 
     <build>
