@@ -109,10 +109,17 @@ public class OperatorKubernetesClusterDeployment extends AbstractKubernetesClust
 
     @Override
     public void cancel() {
-        List<StatusDetails> statusDetails = this.kubernetesClientAdapter.getKubernetesClient().resource(getSparkApplication()).delete();
+        try {
+            List<StatusDetails> statusDetails = this.kubernetesClientAdapter.getKubernetesClient().resource(getSparkApplication()).delete();
 
-        //todo 是否需要判断停止成功
-        this.kubernetesClientAdapter.closeKubernetesClient();
+            if (!checkCancelJobResult(statusDetails)) {
+                throw new RuntimeException("任务取消失败");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("spark on kubernetes cancel error, msg = " + e.getMessage());
+        } finally {
+            this.kubernetesClientAdapter.closeKubernetesClient();
+        }
     }
 
     public SparkApplication getSparkApplication() {
@@ -132,5 +139,16 @@ public class OperatorKubernetesClusterDeployment extends AbstractKubernetesClust
         return customResourceDefinitionList.getItems().stream()
                 .filter(crd -> crd.getMetadata().getName().equals(sparkApplicationCRDName))
                 .collect(Collectors.toList());
+    }
+
+    public Boolean checkCancelJobResult(List<StatusDetails> statusDetails) {
+        Boolean result = false;
+        if (CollectionUtil.isNotEmpty(statusDetails)) {
+            StatusDetails details = statusDetails.get(0);
+            if (CustomResource.getCRDName(SparkApplication.class).equalsIgnoreCase(details.getKind()) && sparkApplication.getMetadata().getName().equalsIgnoreCase(details.getName())) {
+                result = true;
+            }
+        }
+        return result;
     }
 }

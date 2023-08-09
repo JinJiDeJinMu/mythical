@@ -15,7 +15,6 @@ public abstract class AbstractKubernetesClusterDeployment<P extends Context> imp
 
     protected P p;
 
-
     public AbstractKubernetesClusterDeployment(P p) {
         this.p = p;
     }

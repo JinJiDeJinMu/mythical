@@ -262,10 +262,6 @@ class MythicalK8sApplicationTests {
 
         Map<String, String> sparkConfMap = new HashMap<>();
 
-//        sparkConfMap.put(
-//                SparkConfiguration.SPARK_KUBERNETES_FILE_UPLOAD_PATH().key(),
-//                sparkConfig.getK8sFileUploadPath());
-
         SparkApplicationSpec sparkApplicationSpec =
                 SparkApplicationSpec.Builder()
                         .type("Scala")
@@ -286,29 +282,25 @@ class MythicalK8sApplicationTests {
 
         SparkApplication application = client.getClient().resource(sparkApplication).create();
 
-        testWatch();
+        testWatch(application);
     }
 
     @Test
-    public void testWatch() {
-        SparkApplication sparkApplication = new SparkApplication();
-        ObjectMeta metadata = new ObjectMeta();
-        metadata.setName("test-spark-operator");
-        metadata.setNamespace("spark-operator");
-        sparkApplication.setMetadata(metadata);
+    public void testWatch(SparkApplication sparkApplication) {
 
-        client.getClient().pods().inNamespace("spark-operator").withName("test-spark-operator-driver").watch(new Watcher<Pod>() {
+        client.getClient().resource(sparkApplication).inNamespace("spark-operator").watch(new Watcher<SparkApplication>() {
             @Override
-            public void eventReceived(Action action, Pod pod) {
+            public void eventReceived(Action action, SparkApplication sparkApplication) {
                 System.out.println("action = " + action);
-                System.out.println("pod = " + pod);
+                System.out.println("spark = " + sparkApplication);
             }
 
             @Override
             public void onClose(WatcherException e) {
-
+                System.out.println("WatcherException = " + e.getMessage());
             }
         });
+
     }
 
 
@@ -322,6 +314,8 @@ class MythicalK8sApplicationTests {
 
 
         List<StatusDetails> delete = client.getClient().resource(sparkApplication).delete();
+
+        System.out.println(JSONUtil.toJsonStr(delete));
 
     }
 
