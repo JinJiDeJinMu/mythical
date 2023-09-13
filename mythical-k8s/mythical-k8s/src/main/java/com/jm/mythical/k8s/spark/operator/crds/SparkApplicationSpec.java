@@ -162,7 +162,8 @@ public class SparkApplicationSpec implements KubernetesResource {
     this.executor = executor;
   }
 
-  @Override
+
+    @Override
   public String toString() {
     return "SparkApplicationSpec{"
             + "type='"

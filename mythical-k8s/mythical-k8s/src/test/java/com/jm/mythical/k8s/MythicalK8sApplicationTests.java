@@ -266,7 +266,7 @@ class MythicalK8sApplicationTests {
                 SparkApplicationSpec.Builder()
                         .type("Scala")
                         .mode("cluster")
-                        .image("apache/spark:a3.3.1")
+                        .image("apache/spark:3.3.1")
                         .imagePullPolicy("Always")
                         .mainClass("org.apache.spark.examples.SparkPi")
                         .mainApplicationFile("local:///opt/spark/examples/jars/spark-examples_2.12-3.3.1.jar")

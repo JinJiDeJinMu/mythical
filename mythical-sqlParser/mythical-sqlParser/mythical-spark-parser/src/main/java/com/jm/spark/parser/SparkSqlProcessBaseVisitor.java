@@ -59,6 +59,11 @@ public class SparkSqlProcessBaseVisitor extends SqlBaseParserBaseVisitor<String>
 
     }
 
+    @Override
+    public String visitSingleStatement(SqlBaseParser.SingleStatementContext ctx) {
+        System.out.println("22222222");
+        return super.visitSingleStatement(ctx);
+    }
 
     @Override
     public String visitTableIdentifier(SqlBaseParser.TableIdentifierContext ctx) {

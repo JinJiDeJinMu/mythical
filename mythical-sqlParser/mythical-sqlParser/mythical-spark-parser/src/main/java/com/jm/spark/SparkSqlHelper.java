@@ -40,4 +40,12 @@ public class SparkSqlHelper {
     public Boolean checkSupportSql(String command) {
         return true;
     }
+
+    public static void main(String[] args) {
+        String sql = "select a.c1 AS cc,a.c2 ,b.c3 FROM a LEFT JOIN (SELECT c1,c3,c4,c5,id FROM d) as b on a.id = b.id";
+
+        SparkSqlHelper sparkSqlHelper = new SparkSqlHelper();
+        String data = sparkSqlHelper.getStatementData(sql);
+        System.out.println(data);
+    }
 }

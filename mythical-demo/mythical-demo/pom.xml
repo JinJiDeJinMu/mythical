@@ -58,6 +58,12 @@
             <artifactId>hadoop-client</artifactId>
             <version>3.1.0</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.dolphinscheduler</groupId>
+            <artifactId>dolphinscheduler-api</artifactId>
+            <version>3.1.9-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
 </project>
