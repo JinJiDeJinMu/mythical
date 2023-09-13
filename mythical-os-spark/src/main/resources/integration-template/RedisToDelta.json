@@ -1,0 +1,12 @@
+{
+  "taskID": "11111",
+  "host": "localhost",
+  "port": "6379",
+  "auth": "password",
+  "inferSchema": "true",
+  "keysPattern": "persontest",
+  "targetDatabase": "test",
+  "targetTable": "cj_123",
+  "writeMode": "append",
+  "columnMap": "id:id,name:name,age:age"
+}

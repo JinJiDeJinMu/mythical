@@ -1,0 +1,35 @@
+{
+  "taskID": "1663827374748610562",
+  "columnMap": "id:id,name:name",
+  "source": {
+    "type": "hive",
+    "config": {
+      "fetchsize": "10000",
+      "jdbcUrl": "jdbc:hive2://192.168.110.42:10009",
+      "password": "1111",
+      "query": "select * from `cjtest`. cjtest2",
+      "sourceColumns": "id:string,name:string",
+      "username": "hadoop"
+    }
+  },
+  "sink": {
+    "type": "hive",
+    "config": {
+      "hiveHdfsPath": "hdfs://192.168.200.61:9000/user/hive312/warehouse/cjtest.db/cjtest3",
+      "jdbcUrl": "jdbc:hive2://192.168.200.63:10000",
+      "targetTable": "`cjtest`.cjtest3",
+      "mergeKeys": "id",
+      "username": "root",
+      "password": "123456",
+      "writeMode": "append"
+    }
+  }
+}
+
+
+hive建表语句
+
+CREATE TABLE cjtest2 (
+id VARCHAR(100),
+name VARCHAR(100)
+)STORED AS PARQUET;

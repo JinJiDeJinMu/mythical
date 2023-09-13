@@ -1,0 +1,27 @@
+{
+  "taskID": "11111",
+  "columnMap": "id:id,name:name",
+  "source": {
+    "type": "jdbc",
+    "config": {
+      "jdbcUrl": "jdbc:mysql://192.168.110.40:3306/test",
+      "username": "root",
+      "password": "Supcon_21",
+      "query": "select * from cjtest",
+      "offsetColumns": "id",
+      "sourceColumns": "id:string,name:string"
+    }
+  },
+  "sink": {
+    "type": "starrocks",
+    "config": {
+      "httpUrl": "192.168.217.232:8030",
+      "jdbcUrl": "jdbc:mysql://192.168.217.232:9030/wzw",
+      "username": "root",
+      "password": "",
+      "targetTable": "wzw.cjtest",
+      "writeMode": "append",
+      "mergeKeys": "id"
+    }
+  }
+}

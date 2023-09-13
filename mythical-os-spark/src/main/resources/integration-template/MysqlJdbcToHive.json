@@ -1,0 +1,17 @@
+{
+  "taskID": "11111",
+  "sourceJdbcUrl": "jdbc:mysql://192.168.110.40:3306/test",
+  "sourceUsername": "root",
+  "sourcePassword": "Supcon_21",
+  "targetJdbcUrl": "jdbc:hive2://192.168.200.62:10000?hive.warehouse.subdir.inherit.perms=false",
+  "targetUsername": "",
+  "targetPassword": "",
+  "targetTable": "test.cjtest8",
+  "hiveHdfsPath": "hdfs://192.168.200.61:9000/user/hive/warehouse/test.db/cjtest8",
+  "writeMode": "append",
+  "columnMap": "id:id,name:name",
+  "sourceColumns": "id:string,name:string",
+  "mergeKeys": "id",
+  "query": "select * from cjtest",
+  "offsetColumns": "id"
+}

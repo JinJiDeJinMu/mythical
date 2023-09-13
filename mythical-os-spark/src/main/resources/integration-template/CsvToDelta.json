@@ -1,0 +1,10 @@
+{
+  "taskID": "11111",
+  "filePath": "src/main/resources/document/newfile.csv",
+  "includeHeader": "true",
+  "targetDatabase": "targetDatabase",
+  "targetTable": "targetTable",
+  "writeMode": "writeMode",
+  "columnMap": "name:name,age:age",
+  "offsetColumns": "offsetColumns"
+}

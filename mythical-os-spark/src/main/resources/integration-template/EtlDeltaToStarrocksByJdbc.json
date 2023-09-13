@@ -1,0 +1,26 @@
+{
+  "taskID": "123456789",
+  "columnMap": "address:address,address_area:address_area,address_city:address_city,address_country:address_country,address_province:address_province,area_code:area_code,business_status:business_status,busiscope:busiscope,city_code:city_code,client_park:client_park,cname:cname,code_id:code_id,compangy_scale:compangy_scale,company_id:company_id,company_level:company_level,company_name:company_name,company_name_en:company_name_en,company_type:company_type,company_type_standard:company_type_standard,describer:describer,describer1:describer1,ds_id:ds_id,email:email,end_date:end_date,entcasebaseinfo:entcasebaseinfo,entid:entid,field_list:field_list,homeurl:homeurl,iconurl:iconurl,iconurl_local:iconurl_local,industry_code:industry_code,industry_type:industry_type,is_clean:is_clean,leader_type:leader_type,legal_representative:legal_representative,lng_lat:lng_lat,main_business:main_business,medical_label:medical_label,office_address:office_address,org_type:org_type,orgcodes:orgcodes,other_name_info_list:other_name_info_list,phone:phone,province_code:province_code,range_zhuceziben:range_zhuceziben,reg_capital:reg_capital,reg_capital_currency:reg_capital_currency,reg_num:reg_num,registration_authority:registration_authority,resource_chain_label:resource_chain_label,shortname:shortname,shortname_en:shortname_en,subdivision_label:subdivision_label,town:town,town_code:town_code,unicode:unicode,weight_json:weight_json,zaiti_infos_list:zaiti_infos_list,zipcode:zipcode,zizhi_infos_list:zizhi_infos_list,zs_md5:zs_md5,quality_filter_result:quality_filter_result,supconit_id:supconit_id",
+  "source": {
+    "type": "delta",
+    "config": {
+      "sourceDatabase": "stg",
+      "sourceTable": "stg_wurui_company_info_2023",
+      "query": "select * from stg.stg_wurui_company_info_2023",
+      "offsetColumns": "ds_id",
+      "sourceColumns": "address:string,address_area:string,address_city:string,address_country:string,address_province:string,area_code:string,business_status:string,busiscope:string,city_code:string,client_park:string,cname:string,code_id:string,compangy_scale:string,company_id:string,company_level:string,company_name:string,company_name_en:string,company_type:string,company_type_standard:string,describer:string,describer1:string,ds_id:string,email:string,end_date:string,entcasebaseinfo:string,entid:string,field_list:string,homeurl:string,iconurl:string,iconurl_local:string,industry_code:string,industry_type:string,is_clean:string,leader_type:string,legal_representative:string,lng_lat:string,main_business:string,medical_label:string,office_address:string,org_type:string,orgcodes:string,other_name_info_list:string,phone:string,province_code:string,range_zhuceziben:string,reg_capital:string,reg_capital_currency:string,reg_num:string,registration_authority:string,resource_chain_label:string,shortname:string,shortname_en:string,subdivision_label:string,town:string,town_code:string,unicode:string,weight_json:string,zaiti_infos_list:string,zipcode:string,zizhi_infos_list:string,zs_md5:string,quality_filter_result:string,supconit_id:string"
+    }
+  },
+  "sink": {
+    "type": "jdbc",
+    "config": {
+      "jdbcUrl": "jdbc:mysql://192.168.201.105:9030/wzw",
+      "username": "root",
+      "password": "",
+      "targetTable": "wzw.cjtest_starrocks_jdbc",
+      "writeMode": "append",
+      "batchsize": "2048",
+      "mergeKeys": "ds_id"
+    }
+  }
+}

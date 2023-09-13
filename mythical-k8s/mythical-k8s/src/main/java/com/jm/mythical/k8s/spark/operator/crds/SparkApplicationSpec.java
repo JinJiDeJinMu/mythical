@@ -163,7 +163,7 @@ public class SparkApplicationSpec implements KubernetesResource {
   }
 
 
-    @Override
+  @Override
   public String toString() {
     return "SparkApplicationSpec{"
             + "type='"

@@ -1,0 +1,13 @@
+{
+  "taskID": "11111",
+  "nameServer": "192.168.200.166:9876",
+  "topic": "cjtest",
+  "jsonPath": "a.b",
+  "group": "group",
+  "targetDatabase": "targetDatabase",
+  "targetTable": "targetTable",
+  "writeMode": "update",
+  "columnMap": "id:id,name:name",
+  "mergeKeys": "id",
+  "sourceColumns": "id:string,name:string"
+}

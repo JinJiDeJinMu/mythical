@@ -1,0 +1,14 @@
+{
+  "taskID": "11111",
+  "jdbcUrl": "jdbc:oracle:thin:@192.168.201.54:1521:helowin",
+  "username": "system",
+  "password": "helowin",
+  "targetDatabase": "targetDatabase",
+  "targetTable": "targetTable",
+  "writeMode": "writeMode",
+  "columnMap": "id:id,name:name",
+  "sourceColumns": "id:string,name:string",
+  "mergeKeys": "id",
+  "query": "select * from \"BI\".\"test\"",
+  "offsetColumns": "id"
+}

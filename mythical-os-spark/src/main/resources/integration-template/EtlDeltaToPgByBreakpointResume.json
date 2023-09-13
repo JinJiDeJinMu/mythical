@@ -1,0 +1,28 @@
+{
+  "taskID": "11111",
+  "columnMap": "id:id,name:name",
+  "source": {
+    "type": "delta",
+    "config": {
+      "sourceDatabase": "test",
+      "sourceTable": "cj_130",
+      "query": "select * from test.cj_130",
+      "offsetColumns": "id",
+      "sourceColumns": "id:string,name:string"
+    }
+  },
+  "sink": {
+    "type": "jdbc",
+    "config": {
+      "jdbcUrl": "jdbc:postgresql://192.168.200.166:5432/test",
+      "username": "lakerw",
+      "password": "6F+LUnsEI49eFFSf",
+      "targetTable": "public.cjtest",
+      "writeMode": "update",
+      "breakpointResume": "true",
+      "breakpointResumeColumn": "id",
+      "batchsize": "2",
+      "mergeKeys": "id"
+    }
+  }
+}

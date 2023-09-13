@@ -1,0 +1,22 @@
+{
+  "taskID": "11111",
+  "columnMap": "id:id,name:name",
+  "source": {
+    "type": "csv",
+    "config": {
+      "filePath": "file:///Users/chengjie/pedestal/lakehouse/src/main/resources/document/newfile.csv",
+      "includeHeader": "true",
+      "offsetColumns": "id",
+      "sourceColumns": "id:string,name:string"
+    }
+  },
+  "sink": {
+    "type": "delta",
+    "config": {
+      "targetDatabase": "test",
+      "targetTable": "cj_129",
+      "writeMode": "overwrite",
+      "mergeKeys": "id"
+    }
+  }
+}

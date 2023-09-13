@@ -1,0 +1,38 @@
+{
+  "columnMap": "col_bigint:col_bigint,col_boolean:col_boolean,col_double:col_double,col_float:col_float,col_int:col_int,col_int2:col_int2,col_text:col_text,col_timestamp:col_timestamp,col_json:col_json,col_jsonb:col_jsonb",
+  "extraConfig": {
+    "dataCountKafkaServers": "192.168.110.43:9092,192.168.110.41:9092,192.168.110.42:9092",
+    "dataCountTopicName": "data_sync_task_out"
+  },
+  "isWatermark": null,
+  "sink": {
+    "algConfig": null,
+    "config": {
+      "columnMap": "col_bigint:col_bigint,col_boolean:col_boolean,col_double:col_double,col_float:col_float,col_int:col_int,col_int2:col_int2,col_text:col_text,col_timestamp:col_timestamp,col_json:col_json,col_jsonb:col_jsonb",
+      "esIndex": "lt_es_full_type",
+      "esJsonColumns": "col_json,col_jsonb",
+      "esNodes": "192.168.200.62:9200",
+      "esType": "_doc",
+      "mergeKeys": null,
+      "offsetColumns": null,
+      "password": "123456",
+      "sourceColumns": "col_bigint:BIGINT,col_boolean:BOOLEAN,col_double:DOUBLE,col_float:FLOAT,col_int:INT,col_int2:INT,col_text:STRING,col_timestamp:STRING,col_json:STRING,col_jsonb:STRING",
+      "username": "elastic",
+      "writeMode": "append"
+    },
+    "type": "es"
+  },
+  "source": {
+    "config": {
+      "fetchsize": "10000",
+      "jdbcUrl": "jdbc:postgresql://192.168.200.166:5432/test",
+      "offsetColumns": null,
+      "password": "6F+LUnsEI49eFFSf",
+      "query": "select * from public.lt_pg_full_type  ",
+      "sourceColumns": "col_bigint:BIGINT,col_boolean:BOOLEAN,col_double:DOUBLE,col_float:FLOAT,col_int:INT,col_int2:INT,col_text:STRING,col_timestamp:TIMESTAMP,col_json:STRING,col_jsonb:STRING",
+      "username": "lakerw"
+    },
+    "type": "jdbc"
+  },
+  "taskID": "1681577874894041089"
+}

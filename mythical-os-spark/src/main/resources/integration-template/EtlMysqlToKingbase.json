@@ -1,0 +1,26 @@
+{
+  "taskID": "11111",
+  "columnMap": "id:ID,name:NAME",
+  "source": {
+    "type": "jdbc",
+    "config": {
+      "jdbcUrl": "jdbc:mysql://192.168.110.40:3306/test",
+      "username": "root",
+      "password": "Supcon_21",
+      "query": "select * from cjtest",
+      "offsetColumns": "id",
+      "sourceColumns": "id:string,name:string"
+    }
+  },
+  "sink": {
+    "type": "jdbc",
+    "config": {
+      "jdbcUrl": "jdbc:kingbase8://192.168.110.41:54321/test",
+      "username": "system",
+      "password": "system",
+      "targetTable": "\"TEST\".cjtest",
+      "writeMode": "update",
+      "mergeKeys": "ID"
+    }
+  }
+}

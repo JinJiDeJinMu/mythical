@@ -1,0 +1,12 @@
+{
+  "taskID": "11111",
+  "filePath": "file:///Users/chengjie/pedestal/lakehouse/src/main/resources/document/test_simple.xlsx",
+  "includeHeader": "true",
+  "targetDatabase": "test",
+  "targetTable": "cj_124",
+  "writeMode": "overwrite",
+  "columnMap": "id:id,name:name,age:age",
+  "offsetColumns": null,
+  "sortColumns": "null:-1",
+  "mergeKeys": null
+}

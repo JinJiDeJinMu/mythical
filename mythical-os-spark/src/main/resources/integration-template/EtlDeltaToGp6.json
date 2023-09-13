@@ -1,0 +1,24 @@
+{
+  "taskID": "11111",
+  "columnMap": "id:id,name:name",
+  "source": {
+    "type": "delta",
+    "config": {
+      "sourceDatabase": "test",
+      "sourceTable": "cj_130",
+      "query": "select * from test.cj_130",
+      "offsetColumns": "id",
+      "sourceColumns": "id:string,name:string"
+    }
+  },
+  "sink": {
+    "type": "jdbc",
+    "config": {
+      "jdbcUrl": "jdbc:postgresql://localhost:8432/test",
+      "username": "gpadmin",
+      "password": "gpadmin",
+      "targetTable": "public.cjtest",
+      "writeMode": "append"
+    }
+  }
+}

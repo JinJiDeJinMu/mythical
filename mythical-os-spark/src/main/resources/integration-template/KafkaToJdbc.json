@@ -1,0 +1,20 @@
+{
+  "taskID": "11111",
+  "kafkaServers": "192.168.110.43:9092,192.168.110.41:9092,192.168.110.42:9092",
+  "topicName": "real-time-data-count-source",
+  "keyType": "",
+  "valueType": "STRING",
+  "groupId": "",
+  "consumeMode": "earliest",
+  "batchSize": "200",
+  "jdbcUrl": "jdbc:mysql://192.168.200.62/test",
+  "username": "root",
+  "password": "root",
+  "targetTable": "datacount",
+  "writeMode": "update",
+  "columnMap": "id:id,name:name",
+  "sourceColumns": "id:string,name:string",
+  "mergeKeys": "id",
+  "DataCountKafkaServers": "192.168.110.43:9092,192.168.110.41:9092,192.168.110.42:9092",
+  "DataCountTopicName": "real-time-data-count-sink"
+}

@@ -1,0 +1,26 @@
+{
+  "taskID": "11111",
+  "columnMap": "id:id,name:name",
+  "source": {
+    "type": "jdbc",
+    "config": {
+      "jdbcUrl": "jdbc:postgresql://localhost:8432/test",
+      "username": "gpadmin",
+      "password": "gpadmin",
+      "query": "select * from public.cjtest",
+      "offsetColumns": "id",
+      "sourceColumns": "id:string,name:string"
+    }
+  },
+  "sink": {
+    "type": "jdbc",
+    "config": {
+      "jdbcUrl": "jdbc:mysql://192.168.110.40:3306/test",
+      "username": "root",
+      "password": "Supcon_21",
+      "targetTable": "cjtest",
+      "writeMode": "append",
+      "mergeKeys": "id"
+    }
+  }
+}

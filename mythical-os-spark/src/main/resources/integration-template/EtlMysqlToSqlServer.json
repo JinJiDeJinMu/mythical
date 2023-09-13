@@ -1,0 +1,26 @@
+{
+  "taskID": "11111",
+  "columnMap": "id:id,name:name",
+  "source": {
+    "type": "jdbc",
+    "config": {
+      "jdbcUrl": "jdbc:mysql://192.168.110.40:3306/test",
+      "username": "root",
+      "password": "Supcon_21",
+      "query": "select * from cjtest",
+      "offsetColumns": "id",
+      "sourceColumns": "id:string,name:string"
+    }
+  },
+  "sink": {
+    "type": "jdbc",
+    "config": {
+      "jdbcUrl": "jdbc:sqlserver://192.168.100.4:1433;databaseName=test",
+      "username": "sa",
+      "password": "PassWord123",
+      "targetTable": "test_schema.test1",
+      "writeMode": "update",
+      "mergeKeys": "id"
+    }
+  }
+}

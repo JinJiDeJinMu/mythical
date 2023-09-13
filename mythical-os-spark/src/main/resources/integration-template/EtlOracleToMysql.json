@@ -1,0 +1,26 @@
+{
+  "taskID": "11111",
+  "columnMap": "id:id,name:name",
+  "source": {
+    "type": "jdbc",
+    "config": {
+      "jdbcUrl": "jdbc:oracle:thin:@192.168.201.54:1521:helowin",
+      "username": "system",
+      "password": "0gdqvnN6b0MK9m+V",
+      "query": "select * from \"BI\".\"test\"",
+      "offsetColumns": "id",
+      "sourceColumns": "id:string,name:string"
+    }
+  },
+  "sink": {
+    "type": "jdbc",
+    "config": {
+      "jdbcUrl": "jdbc:mysql://192.168.110.40:3306/test",
+      "username": "root",
+      "password": "Supcon_21",
+      "targetTable": "cjtest",
+      "writeMode": "append",
+      "mergeKeys": "id"
+    }
+  }
+}

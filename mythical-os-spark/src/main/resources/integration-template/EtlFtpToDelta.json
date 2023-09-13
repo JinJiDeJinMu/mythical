@@ -1,0 +1,31 @@
+{
+  "taskID": "11111",
+  "columnMap": "id:id,name:name",
+  "source": {
+    "type": "api",
+    "config": {
+      "url": "",
+      "port": "",
+      "username": "",
+      "password": "",
+      "filePath": "",
+      "fileType": "",
+      "nullValue": "",
+      "delimiter": "",
+      "encoding": "",
+      "compressionType": "",
+      "includeHeader": "",
+      "offsetColumns": "",
+      "sourceColumns": ""
+    }
+  },
+  "sink": {
+    "type": "delta",
+    "config": {
+      "targetDatabase": "test",
+      "targetTable": "cj_129",
+      "writeMode": "overwrite",
+      "mergeKeys": "id"
+    }
+  }
+}

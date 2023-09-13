@@ -1,0 +1,22 @@
+{
+  "taskID": "11111",
+  "columnMap": "id:id,name:name",
+  "source": {
+    "type": "excel",
+    "config": {
+      "filePath": "file:///Users/chengjie/pedestal/lakehouse/src/main/resources/document/test_simple.xlsx",
+      "includeHeader": "true",
+      "offsetColumns": "id",
+      "sourceColumns": "id:string,name:string"
+    }
+  },
+  "sink": {
+    "type": "delta",
+    "config": {
+      "targetDatabase": "test",
+      "targetTable": "cj_129",
+      "writeMode": "overwrite",
+      "mergeKeys": "id"
+    }
+  }
+}

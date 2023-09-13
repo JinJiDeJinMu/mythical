@@ -1,0 +1,32 @@
+{
+  "taskID": "11111",
+  "columnMap": "id:id,name:name",
+  "source": {
+    "type": "api",
+    "config": {
+      "apiUrl": "",
+      "method": "",
+      "dataMode": "",
+      "dataPath": "",
+      "responseType": "",
+      "header": "",
+      "parameters": "",
+      "requestTimes": "",
+      "authType": "",
+      "username": "",
+      "password": "",
+      "token": "",
+      "offsetColumns": "",
+      "sourceColumns": ""
+    }
+  },
+  "sink": {
+    "type": "delta",
+    "config": {
+      "targetDatabase": "test",
+      "targetTable": "cj_129",
+      "writeMode": "overwrite",
+      "mergeKeys": "id"
+    }
+  }
+}

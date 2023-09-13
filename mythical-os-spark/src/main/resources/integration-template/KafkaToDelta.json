@@ -1,0 +1,22 @@
+{
+  "batchSize": "100000",
+  "columnMap": "topic:topic,partition:partition,offset:offset,spider:spider,request_key:request_key,response_url:response_url,task:task,priority:priority,source_code:source_code,resolved_code:resolved_code,destination:destination,data_priority:data_priority,extra:extra,data:data,valid:valid,errors:errors,crawler_time:crawler_time,stg_entry_time:stg_entry_time,dt:dt",
+  "consumeDelay": "1m",
+  "consumeMode": "earliest",
+  "dataCountKafkaServers": "192.168.201.81:9092,192.168.201.82:9092,192.168.201.83:9092,192.168.201.84:9092,192.168.201.85:9092",
+  "dataCountTopicName": "data_sync_task_in",
+  "driverCores": "1",
+  "driverMemory": "1024m",
+  "encrypt": null,
+  "failOnDataLoss": "false",
+  "isCDC": "true",
+  "isKafkaConnector": "false",
+  "kafkaServers": "192.168.200.81:30091, 192.168.200.82:30092, 192.168.200.83:30093",
+  "mergeKeys": "data",
+  "sourceColumns": "topic:STRING,partition:STRING,offset:STRING,spider:STRING,request_key:STRING,response_url:STRING,task:STRING,priority:STRING,source_code:STRING,resolved_code:STRING,destination:STRING,data_priority:STRING,extra:STRING,data:STRING,valid:STRING,errors:STRING,crawler_time:STRING,stg_entry_time:STRING,dt:STRING",
+  "targetDatabase": "stg",
+  "targetTable": "stg_crawler_device_nmpa_dt_test",
+  "taskID": "1638903551447617538",
+  "topicName": "nmpa",
+  "writeMode": "update"
+}

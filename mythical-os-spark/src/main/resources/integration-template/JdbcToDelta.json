@@ -1,0 +1,105 @@
+{
+  "columnMap": "address:address,address_area:address_area,address_city:address_city,address_country:address_country,address_province:address_province,approval_date:approval_date,area_code:area_code,business_end_date:business_end_date,business_status:business_status,busiscope:busiscope,city_code:city_code,client_park:client_park,cname:cname,code_id:code_id,compangy_scale:compangy_scale,compangy_size:compangy_size,company_id:company_id,company_level:company_level,company_name:company_name,company_name_en:company_name_en,company_scale:company_scale,company_type:company_type,company_type_standard:company_type_standard,describer:describer,describer1:describer1,ds_id:ds_id,email:email,end_date:end_date,entcasebaseinfo:entcasebaseinfo,entid:entid,establishment_date:establishment_date,field_list:field_list,homeurl:homeurl,iconurl:iconurl,iconurl_local:iconurl_local,industry_code:industry_code,industry_type:industry_type,is_clean:is_clean,is_exist:is_exist,is_ovesea_information:is_ovesea_information,ismedical:ismedical,issuance_date:issuance_date,lat:lat,leader_type:leader_type,legal_representative:legal_representative,lng_lat:lng_lat,lon:lon,main_business:main_business,medical_label:medical_label,normal_running:normal_running,office_address:office_address,org_type:org_type,orgcodes:orgcodes,other_name_info_list:other_name_info_list,phone:phone,province_code:province_code,range_zhuceziben:range_zhuceziben,reg_capital:reg_capital,reg_capital_base:reg_capital_base,reg_capital_cal:reg_capital_cal,reg_capital_currency:reg_capital_currency,reg_capital_num:reg_capital_num,reg_num:reg_num,registration_authority:registration_authority,resource_chain_label:resource_chain_label,shortname:shortname,shortname_en:shortname_en,subdivision_label:subdivision_label,sys_insert_date:sys_insert_date,sys_update_date:sys_update_date,town:town,town_code:town_code,unicode:unicode,weight_json:weight_json,zipcode:zipcode,zizhi_infos_list:zizhi_infos_list,zs_md5:zs_md5",
+  "customerSql": null,
+  "encrypt": [
+    {
+      "columnName": "address",
+      "encryptName": "MaskWithChar",
+      "encryptParams": [
+        "address",
+        "#",
+        1,
+        1
+      ]
+    },
+    {
+      "columnName": "address_area",
+      "encryptName": "MaskWithRadChar",
+      "encryptParams": [
+        "address_area",
+        0,
+        4
+      ]
+    },
+    {
+      "columnName": "address_city",
+      "encryptName": "MD5",
+      "encryptParams": [
+        "abc",
+        "address_city"
+      ]
+    },
+    {
+      "columnName": "address_province",
+      "encryptName": "AES",
+      "encryptParams": [
+        "address_province",
+        "A8QTC2NZuQuFZxu9H2K8Tg=="
+      ]
+    },
+    {
+      "columnName": "approval_date",
+      "encryptName": "NumericalTrans",
+      "encryptParams": [
+        "approval_date",
+        "time",
+        10,
+        20,
+        "month"
+      ]
+    },
+    {
+      "columnName": "company_name_en",
+      "encryptName": "NullInOrDel",
+      "encryptParams": [
+        "company_name_en",
+        false
+      ]
+    },
+    {
+      "columnName": "iconurl_local",
+      "encryptName": "NullInOrDel",
+      "encryptParams": [
+        "iconurl_local",
+        true
+      ]
+    },
+    {
+      "columnName": "area_code",
+      "encryptName": "Shuffle",
+      "encryptParams": [
+        "area_code"
+      ]
+    },
+    {
+      "columnName": "lat",
+      "encryptName": "NumericalTrans",
+      "encryptParams": [
+        "lat",
+        "num",
+        10,
+        20,
+        ""
+      ]
+    }
+  ],
+  "fetchsize": "10000",
+  "jdbcType": null,
+  "jdbcUrl": "jdbc:postgresql://192.168.200.42:5432/ah_inx_brain",
+  "mergeKeys": null,
+  "offsetColumns": null,
+  "password": "Wvd0r3msD4c7b1r7",
+  "query": "select * from public.ads_client_main_company_info  ",
+  "readMode": "full",
+  "sortColumns": "null:-1",
+  "sourceColumns": "address:STRING,address_area:STRING,address_city:STRING,address_country:STRING,address_province:STRING,approval_date:DATE,area_code:STRING,business_end_date:DATE,business_status:STRING,busiscope:STRING,city_code:STRING,client_park:STRING,cname:STRING,code_id:STRING,compangy_scale:STRING,compangy_size:DOUBLE,company_id:STRING,company_level:STRING,company_name:STRING,company_name_en:STRING,company_scale:INT,company_type:STRING,company_type_standard:STRING,describer:STRING,describer1:STRING,ds_id:STRING,email:STRING,end_date:STRING,entcasebaseinfo:STRING,entid:STRING,establishment_date:DATE,field_list:STRING,homeurl:STRING,iconurl:STRING,iconurl_local:STRING,industry_code:STRING,industry_type:STRING,is_clean:STRING,is_exist:INT,is_ovesea_information:BOOLEAN,ismedical:BOOLEAN,issuance_date:DATE,lat:DECIMAL,leader_type:STRING,legal_representative:STRING,lng_lat:STRING,lon:DECIMAL,main_business:STRING,medical_label:STRING,normal_running:BOOLEAN,office_address:STRING,org_type:STRING,orgcodes:STRING,other_name_info_list:STRING,phone:STRING,province_code:STRING,range_zhuceziben:STRING,reg_capital:STRING,reg_capital_base:DECIMAL,reg_capital_cal:DECIMAL,reg_capital_currency:STRING,reg_capital_num:DECIMAL,reg_num:STRING,registration_authority:STRING,resource_chain_label:STRING,shortname:STRING,shortname_en:STRING,subdivision_label:STRING,sys_insert_date:TIMESTAMP,sys_update_date:TIMESTAMP,town:STRING,town_code:STRING,unicode:STRING,weight_json:STRING,zipcode:STRING,zizhi_infos_list:STRING,zs_md5:STRING",
+  "targetDatabase": "stg",
+  "targetTable": "stg_wurui_company_info_2023",
+  "taskID": "1602205301488390146",
+  "username": "wur",
+  "writeMode": "overwrite",
+  "zoneFieldCode": null,
+  "zoneTargetFieldCode": null,
+  "zoneType": null,
+  "zoneTypeUnit": null
+}

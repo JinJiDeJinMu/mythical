@@ -1,0 +1,27 @@
+{
+  "taskID": "11111",
+  "columnMap": "id:id,name:name",
+  "source": {
+    "type": "jdbc",
+    "config": {
+      "jdbcUrl": "jdbc:mysql://192.168.110.40:3306/test",
+      "username": "root",
+      "password": "Supcon_21",
+      "query": "select * from cjtest",
+      "offsetColumns": "id",
+      "sourceColumns": "id:string,name:string"
+    }
+  },
+  "sink": {
+    "type": "hive",
+    "config": {
+      "hiveHdfsPath": "hdfs://192.168.200.61:9000/user/hive312/warehouse/cjtest.db/cjtest3",
+      "jdbcUrl": "jdbc:hive2://192.168.200.63:10000",
+      "targetTable": "`cjtest`.cjtest3",
+      "mergeKeys": "id",
+      "username": "root",
+      "password": "123456",
+      "writeMode": "append"
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "taskID": "11111",
+  "columnMap": "id:id,name:name",
+  "source": {
+    "type": "jdbc",
+    "config": {
+      "jdbcUrl": "jdbc:mysql://192.168.110.40:3306/test",
+      "username": "root",
+      "password": "Supcon_21",
+      "query": "select * from cjtest",
+      "offsetColumns": "id",
+      "sourceColumns": "id:string,name:string"
+    }
+  },
+  "sink": {
+    "type": "mongo",
+    "config": {
+      "collection": "cjtest",
+      "targetDatabase": "cjtest",
+      "url": "mongodb://192.168.100.41:27017/cjtest",
+      "writeMode": "overwrite",
+      "mergeKeys": "id"
+    }
+  }
+}

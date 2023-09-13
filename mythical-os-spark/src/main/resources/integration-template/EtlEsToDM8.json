@@ -1,0 +1,28 @@
+{
+  "taskID": "11111",
+  "columnMap": "id:id,name:name",
+  "source": {
+    "type": "es",
+    "config": {
+      "username": "",
+      "password": "",
+      "esConf": "",
+      "esIndex": "cjtestes333",
+      "esNodes": "192.168.200.61:9200",
+      "esType": "_doc",
+      "offsetColumns": "id",
+      "sourceColumns": "id:string,name:string"
+    }
+  },
+  "sink": {
+    "type": "jdbc",
+    "config": {
+      "jdbcUrl": "jdbc:dm://192.168.110.40:5236/SYSDBA",
+      "username": "SYSDBA",
+      "password": "SYSDBA",
+      "targetTable": "SYSDBA.CJTEST",
+      "writeMode": "append",
+      "mergeKeys": "id"
+    }
+  }
+}

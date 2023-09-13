@@ -1,0 +1,16 @@
+{
+  "taskID": "11111",
+  "sourceJdbcUrl": "jdbc:mysql://192.168.110.40:3306/test",
+  "sourceUsername": "root",
+  "sourcePassword": "Supcon_21",
+  "targetJdbcUrl": "jdbc:kingbase8://192.168.110.41:54321/test",
+  "targetUsername": "system",
+  "targetPassword": "system",
+  "targetTable": "\"TEST\".cjtest",
+  "writeMode": "append",
+  "columnMap": "id:id,name:name",
+  "sourceColumns": "id:string,name:string",
+  "mergeKeys": "id",
+  "query": "select * from cjtest",
+  "offsetColumns": "id"
+}

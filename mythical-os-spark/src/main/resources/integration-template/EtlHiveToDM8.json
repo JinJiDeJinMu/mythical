@@ -1,0 +1,26 @@
+{
+  "taskID": "11111",
+  "columnMap": "id:id,name:name",
+  "source": {
+    "type": "hive",
+    "config": {
+      "jdbcUrl": "jdbc:hive2://192.168.200.62:10000",
+      "username": "",
+      "password": "",
+      "query": "select * from test.cjtest5",
+      "offsetColumns": "id",
+      "sourceColumns": "id:string,name:string"
+    }
+  },
+  "sink": {
+    "type": "jdbc",
+    "config": {
+      "jdbcUrl": "jdbc:dm://192.168.110.40:5236/SYSDBA",
+      "username": "SYSDBA",
+      "password": "SYSDBA",
+      "targetTable": "SYSDBA.CJTEST",
+      "writeMode": "append",
+      "mergeKeys": "id"
+    }
+  }
+}
