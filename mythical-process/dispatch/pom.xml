@@ -12,7 +12,6 @@
         <module>dispatch-core</module>
         <module>dispatch-hive</module>
         <module>dispatch-sparksql</module>
-        <module>dispatch-seatunnel</module>
         <module>dispatch-log</module>
         <module>dispatch-python</module>
     </modules>
