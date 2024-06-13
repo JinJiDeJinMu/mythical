@@ -30,12 +30,12 @@ public class ActorConf {
         String path = Serialization.serializedActorPath(testActor);
         System.out.println(path);
 
-        //ActorRef sendActor = actorSystem.actorOf(Props.create(SendActor.class,testActor), getActorRefName(SendActor.class));
-        //sendActor.tell("hhahha",ActorRef.noSender());
+        ActorRef sendActor = actorSystem.actorOf(Props.create(SendActor.class,testActor), getActorRefName(SendActor.class));
+        sendActor.tell("abc",ActorRef.noSender());
 
         //actorSelection 发送消息 path可以通过Serialization.serializedActorPath(testActor);获取
-        ActorSelection selection = actorSystem.actorSelection("akka://jinmu@192.168.217.97:25520/user/testActor");
-        selection.tell("测试selection11111", ActorRef.noSender());
+//        ActorSelection selection = actorSystem.actorSelection(path);
+//        selection.tell("测试selection11111", ActorRef.noSender());
 
 
         actorSystem.terminate();

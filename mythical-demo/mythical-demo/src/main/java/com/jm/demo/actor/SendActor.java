@@ -23,8 +23,7 @@ public class SendActor extends UntypedAbstractActor {
 
     @Override
     public void onReceive(Object message) throws Throwable, Throwable {
-        System.out.println("send = " + message);
-
+        System.out.println("发送的消息，msg = " + message);
         send(message.toString());
         getContext().stop(getSelf());
     }

@@ -136,7 +136,6 @@ class MythicalK8sApplicationTests {
 
 
         FlinkDeployment deployment = client.getClient().resource(flinkDeployment).create();
-
     }
 
     public PodSpec getPodSpec() {
@@ -282,11 +281,17 @@ class MythicalK8sApplicationTests {
 
         SparkApplication application = client.getClient().resource(sparkApplication).create();
 
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         testWatch(application);
     }
 
     @Test
     public void testWatch(SparkApplication sparkApplication) {
+
 
         client.getClient().resource(sparkApplication).inNamespace("spark-operator").watch(new Watcher<SparkApplication>() {
             @Override
